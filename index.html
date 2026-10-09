@@ -6,89 +6,120 @@
   <title>Sovereign Navigator — Remedy Pathway</title>
   <style>
     :root {
-      --bg: #0f141c;
-      --panel: #18202c;
-      --border: #283548;
-      --text-main: #f0f4f8;
+      --bg: #0b0f17;
+      --panel: #131b26;
+      --panel-alt: #1a2433;
+      --border: #243247;
+      --text-main: #f1f5f9;
       --text-dim: #94a3b8;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
+      --accent-gold: #d97706;
       --success: #10b981;
+      --danger: #ef4444;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
-    
+
     /* Layout */
     #sidebar { width: 320px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-    #sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; }
-    #nav-list { list-style: none; overflow-y: auto; flex: 1; }
-    .nav-item { padding: 14px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; color: var(--text-dim); display: flex; justify-content: space-between; }
-    .nav-item:hover, .nav-item.active { background: #222d3d; color: var(--text-main); font-weight: 600; }
-    .nav-item.active { border-left: 4px solid var(--accent); }
+    #sidebar-header { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+    #sidebar-header h1 { font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #fff; }
+    #sidebar-header p { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; }
+    #nav-list { list-style: none; overflow-y: auto; flex: 1; padding: 8px 0; }
+    .nav-item { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); font-size: 0.85rem; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+    .nav-item:hover { background: var(--panel-alt); color: var(--text-main); }
+    .nav-item.active { background: var(--panel-alt); color: #fff; font-weight: 600; border-left: 4px solid var(--accent); }
+    .nav-item .gate-status { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
 
-    #main { flex: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; }
-    .container { width: 100%; max-width: 760px; }
-    
-    /* UI Elements */
-    .module-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin-bottom: 24px; }
-    h2 { margin-bottom: 8px; font-size: 1.5rem; }
-    p.description { color: var(--text-dim); margin-bottom: 24px; font-size: 0.95rem; }
+    #main { flex: 1; overflow-y: auto; padding: 48px; display: flex; flex-direction: column; align-items: center; }
+    .container { width: 100%; max-width: 780px; }
+
+    /* Cards & Components */
+    .module-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 32px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
+    .gate-badge { display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    h2 { font-size: 1.6rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+    p.description { color: var(--text-dim); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.5; }
+
     .node-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-    .node-item { background: #131923; padding: 12px 16px; border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; gap: 12px; }
-    .node-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
-    
+    .node-item { background: #0e141e; padding: 16px; border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: flex-start; gap: 14px; cursor: pointer; transition: border-color 0.2s; }
+    .node-item:hover { border-color: #3b82f6; }
+    .node-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); margin-top: 2px; cursor: pointer; }
+    .node-text { display: flex; flex-direction: column; gap: 4px; }
+    .node-title { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
+    .node-subtext { font-size: 0.8rem; color: var(--text-dim); }
+
+    .progress-section { background: #0e141e; border: 1px solid var(--border); border-radius: 6px; padding: 18px; margin-bottom: 24px; }
+    .progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
+    .progress-bar-container { background: #1a2433; border-radius: 4px; height: 10px; width: 100%; overflow: hidden; }
+    .progress-bar { background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease; }
+
+    .jurisdiction-panel { border-left: 3px solid var(--accent-gold); background: #161d27; padding: 14px 18px; margin-bottom: 24px; font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; }
+    .jurisdiction-panel strong { color: #fff; }
+
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
-    .form-group input, .form-group select { width: 100%; padding: 10px; background: #131923; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.95rem; }
-    
+    .form-group input, .form-group select { width: 100%; padding: 12px; background: #0e141e; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.95rem; }
+
     .btn-row { display: flex; gap: 12px; margin-top: 24px; }
-    button { padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; transition: background 0.2s; }
+    button { padding: 14px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; transition: all 0.2s; }
     .btn-primary { background: var(--accent); color: #fff; }
     .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { background: #1e293b; color: #64748b; cursor: not-allowed; }
     .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
-    .btn-secondary:hover { background: #222d3d; }
+    .btn-secondary:hover { background: var(--panel-alt); }
 
-    .progress-bar-container { background: #131923; border-radius: 4px; height: 10px; width: 100%; overflow: hidden; margin-top: 8px; }
-    .progress-bar { background: var(--success); height: 100%; width: 0%; transition: width 0.3s; }
-    footer { margin-top: auto; padding-top: 24px; font-size: 0.8rem; color: var(--text-dim); text-align: center; }
+    footer { margin-top: auto; padding-top: 32px; font-size: 0.8rem; color: var(--text-dim); text-align: center; }
   </style>
 </head>
 <body>
 
   <aside id="sidebar">
-    <div id="sidebar-header">SOVEREIGN NAVIGATOR</div>
+    <div id="sidebar-header">
+      <h1>Sovereign Navigator</h1>
+      <p>Remedy & Re-Stabilization Matrix</p>
+    </div>
     <ul id="nav-list">
-      <li class="nav-item active" onclick="navigate(0)">0. Status Gate</li>
-      <li class="nav-item" onclick="navigate(1)">I. Unsheltered Intake</li>
-      <li class="nav-item" onclick="navigate(2)">II. Identity Gate</li>
-      <li class="nav-item" onclick="navigate(3)">III. HMIS Enrollment</li>
-      <li class="nav-item" onclick="navigate(4)">IV. Stability Gate</li>
-      <li class="nav-item" onclick="navigate(5)">V. Disability Gate</li>
-      <li class="nav-item" onclick="navigate(6)">VI. Housing Gate</li>
-      <li class="nav-item" onclick="navigate(7)">VII. Economic Gate</li>
-      <li class="nav-item" onclick="navigate(8)">VIII. Legal Stability</li>
-      <li class="nav-item" onclick="navigate(9)">IX. Sovereign Gate</li>
+      <li class="nav-item" onclick="navigate(0)"><span>0. Status Gate</span></li>
+      <li class="nav-item" onclick="navigate(1)"><span>I. Unsheltered Intake</span></li>
+      <li class="nav-item" onclick="navigate(2)"><span>II. Identity Gate</span> <span id="doc-badge" class="gate-status">0/4</span></li>
+      <li class="nav-item" onclick="navigate(3)"><span>III. HMIS Enrollment</span></li>
+      <li class="nav-item" onclick="navigate(4)"><span>IV. Benefits Access</span></li>
+      <li class="nav-item" onclick="navigate(5)"><span>V. Disability Gate</span></li>
+      <li class="nav-item" onclick="navigate(6)"><span>VI. Housing Pathway</span></li>
+      <li class="nav-item" onclick="navigate(7)"><span>VII. Economic Gate</span></li>
+      <li class="nav-item" onclick="navigate(8)"><span>VIII. Legal Stability</span></li>
+      <li class="nav-item" onclick="navigate(9)"><span>IX. Sovereign Gate</span></li>
     </ul>
   </aside>
 
   <main id="main">
-    <div class="container" id="content-container">
-      <!-- Injected by JavaScript -->
-    </div>
+    <div class="container" id="content-container"></div>
   </main>
 
   <script>
+    // State persistence for Document Restoration Gate
+    const docState = {
+      stateId: false,
+      birthCert: false,
+      ssCard: false,
+      mailAddress: false
+    };
+
+    let activeGate = 2; // Default starting view to Identity Gate as requested
+
     const screens = [
       {
         title: "0. Sovereign Status Gate",
-        desc: "Establish starting jurisdiction.",
+        badge: "System Entry",
         render: () => `
           <div class="module-card">
+            <span class="gate-badge">Entry Gate</span>
             <h2>Sovereign Navigator — Remedy Pathway</h2>
-            <p class="description">Establish intake jurisdiction and case file routing.</p>
+            <p class="description">Establish the individual's baseline jurisdictional standing to route intake priority and services.</p>
             <div class="btn-row">
               <button class="btn-primary" onclick="navigate(1)">Begin Intake</button>
-              <button class="btn-secondary" onclick="navigate(9)">Already Enrolled</button>
+              <button class="btn-secondary" onclick="navigate(2)">Open Active View (Identity Gate)</button>
             </div>
           </div>
           <footer>A jurisdictional remedy system for individuals navigating homelessness.</footer>
@@ -96,186 +127,170 @@
       },
       {
         title: "I. Unsheltered Status Module",
-        desc: "Initial Contact and triage assessment.",
+        badge: "Initial Contact",
         render: () => `
           <div class="module-card">
-            <h2>Initial Contact Assessment</h2>
-            <p class="description">Field triage and risk indicators.</p>
-            <div class="form-group"><label>Name / Legal Subject</label><input type="text" placeholder="First Last"></div>
-            <div class="form-group"><label>Alias / Moniker</label><input type="text" placeholder="Known identifier"></div>
-            <div class="form-group"><label>Location Last Slept</label><input type="text" placeholder="Intersection / Landmark"></div>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> Street Outreach Contact Established</label>
-              <label class="node-item"><input type="checkbox"> Shelter Intake Attempt Recorded</label>
-              <label class="node-item"><input type="checkbox"> Diversion Screening Executed</label>
-              <label class="node-item"><input type="checkbox"> Crisis Needs Assessment Complete</label>
-            </div>
+            <span class="gate-badge">Stage I — Contact</span>
+            <h2>Unsheltered Intake & Triage</h2>
+            <p class="description">Capture immediate crisis variables and field triage indicators.</p>
+            <div class="form-group"><label>Individual / Subject Legal Name</label><input type="text" placeholder="First Last"></div>
+            <div class="form-group"><label>Known Alias / Street Moniker</label><input type="text" placeholder="Known identifier"></div>
+            <div class="form-group"><label>Location Last Slept</label><input type="text" placeholder="Street intersection or camp coordinates"></div>
             <div class="btn-row">
-              <button class="btn-primary" onclick="navigate(2)">Create HMIS Footprint</button>
+              <button class="btn-primary" onclick="navigate(2)">Record Contact & Open Identity Gate</button>
             </div>
           </div>
         `
       },
       {
         title: "II. Document Restoration Module",
-        desc: "Identity Gate — baseline civil documentation.",
-        render: () => `
-          <div class="module-card">
-            <h2>Identity Documentation Gate</h2>
-            <p class="description">Document recovery tracking (Check completed items).</p>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox" onchange="updateProgress(this)"> State ID Restoration</label>
-              <label class="node-item"><input type="checkbox" onchange="updateProgress(this)"> Birth Certificate Retrieval</label>
-              <label class="node-item"><input type="checkbox" onchange="updateProgress(this)"> Social Security Card Replacement</label>
-              <label class="node-item"><input type="checkbox" onchange="updateProgress(this)"> Mailing Address Establishment</label>
+        badge: "Identity Gate (Active View)",
+        render: () => {
+          const totalDocs = Object.keys(docState).length;
+          const completedDocs = Object.values(docState).filter(Boolean).length;
+          const pct = Math.round((completedDocs / totalDocs) * 100);
+          const isComplete = completedDocs === totalDocs;
+
+          return `
+            <div class="module-card">
+              <span class="gate-badge">Active View — Stage II</span>
+              <h2>Identity Documentation Gate</h2>
+              <p class="description">Recovery of vital identity records is required before federal Continuum of Care prioritization. Verify each document milestone below.</p>
+              
+              <div class="jurisdiction-panel">
+                <strong>Jurisdiction Requirement:</strong> Federal HMIS coordinated entry matches individuals to housing pathways based on verified civil documentation. All four milestones must be established to guarantee uninterrupted benefit transition.
+              </div>
+
+              <div class="progress-section">
+                <div class="progress-header">
+                  <span>Document Recovery Status</span>
+                  <span>${pct}% Complete (${completedDocs}/${totalDocs})</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar" style="width: ${pct}%;"></div>
+                </div>
+              </div>
+
+              <div class="node-list">
+                <label class="node-item">
+                  <input type="checkbox" ${docState.stateId ? "checked" : ""} onchange="toggleDoc('stateId', this.checked)">
+                  <div class="node-text">
+                    <span class="node-title">State ID Restoration</span>
+                    <span class="node-subtext">Certified state driver license or official non-driver photo identification.</span>
+                  </div>
+                </label>
+
+                <label class="node-item">
+                  <input type="checkbox" ${docState.birthCert ? "checked" : ""} onchange="toggleDoc('birthCert', this.checked)">
+                  <div class="node-text">
+                    <span class="node-title">Birth Certificate Retrieval</span>
+                    <span class="node-subtext">Certified state vital statistics registry copy bearing an official raised seal.</span>
+                  </div>
+                </label>
+
+                <label class="node-item">
+                  <input type="checkbox" ${docState.ssCard ? "checked" : ""} onchange="toggleDoc('ssCard', this.checked)">
+                  <div class="node-text">
+                    <span class="node-title">Social Security Card Replacement</span>
+                    <span class="node-subtext">Official Social Security Administration card for legal employment verification.</span>
+                  </div>
+                </label>
+
+                <label class="node-item">
+                  <input type="checkbox" ${docState.mailAddress ? "checked" : ""} onchange="toggleDoc('mailAddress', this.checked)">
+                  <div class="node-text">
+                    <span class="node-title">Address Establishment</span>
+                    <span class="node-subtext">Valid daytime delivery address (designated shelter, day center, or general delivery).</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="btn-row">
+                <button class="btn-primary" id="btn-hmis" ${!isComplete ? "disabled" : ""} onclick="navigate(3)">
+                  ${isComplete ? "Advance to HMIS Gate →" : "Complete All 4 Documents to Advance"}
+                </button>
+                <button class="btn-secondary" onclick="navigate(1)">← Back to Intake</button>
+              </div>
             </div>
-            <label style="font-size:0.85rem; color:var(--text-dim);">Document Restoration Progress</label>
-            <div class="progress-bar-container"><div id="doc-bar" class="progress-bar"></div></div>
-            <div class="btn-row" style="margin-top:20px;">
-              <button class="btn-primary" onclick="navigate(3)">Proceed to HMIS Gate</button>
-            </div>
-          </div>
-        `
+          `;
+        }
       },
       {
         title: "III. HMIS Enrollment Module",
-        desc: "Federal Recognition Gate.",
+        badge: "Federal Recognition",
         render: () => `
           <div class="module-card">
-            <h2>HMIS CoC Enrollment</h2>
-            <p class="description">Continuum of Care intake and case allocation.</p>
-            <div class="form-group"><label>Assigned HMIS Footprint ID</label><input type="text" value="HMIS-TX-2026-904" readonly></div>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> HUD Continuum of Care Enrollment</label>
-              <label class="node-item"><input type="checkbox"> Vulnerability Index Assessment Complete</label>
-              <label class="node-item"><input type="checkbox"> Case Manager Designated</label>
-              <label class="node-item"><input type="checkbox"> Service Plan Synchronized</label>
+            <span class="gate-badge">Stage III — Federal Gate</span>
+            <h2>HMIS Coordinated Entry</h2>
+            <p class="description">Continuum of Care allocation and Vulnerability Index scoring.</p>
+            <div class="form-group"><label>Generated HMIS Universal ID</label><input type="text" value="TX-COC-2026-DOC-VERIFIED" readonly></div>
+            <div class="btn-row">
+              <button class="btn-primary" onclick="navigate(4)">Advance to Stability Gate</button>
+              <button class="btn-secondary" onclick="navigate(2)">Return to Identity Gate</button>
             </div>
-            <button class="btn-primary" onclick="navigate(4)">Advance to Stability Gate</button>
           </div>
         `
       },
       {
         title: "IV. Benefit Access Module",
-        desc: "Stability Gate — non-cash and cash assistance.",
-        render: () => `
-          <div class="module-card">
-            <h2>Benefits Hub</h2>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> SNAP Enrollment Filed</label>
-              <label class="node-item"><input type="checkbox"> Medicaid Application Submitted</label>
-              <label class="node-item"><input type="checkbox"> SSI/SSDI Screening Evaluated</label>
-              <label class="node-item"><input type="checkbox"> Local Direct Assistance Connected</label>
-            </div>
-            <button class="btn-primary" onclick="navigate(5)">Open Medical Documentation Gate</button>
-          </div>
-        `
+        badge: "Stability Gate",
+        render: () => `<div class="module-card"><h2>Benefits Hub</h2><p class="description">SNAP, Medicaid, and SSI/SSDI screening.</p><button class="btn-primary" onclick="navigate(5)">Continue to Disability Gate</button></div>`
       },
       {
         title: "V. Medical & Behavioral Module",
-        desc: "Disability Gate and care plans.",
-        render: () => `
-          <div class="module-card">
-            <h2>Medical & Behavioral Gate</h2>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> Medical Clinical History Documented</label>
-              <label class="node-item"><input type="checkbox"> Behavioral Health Evaluation Scheduled</label>
-              <label class="node-item"><input type="checkbox"> Formal Disability Verification Generated</label>
-              <label class="node-item"><input type="checkbox"> Ongoing Treatment Plan Enrolled</label>
-            </div>
-            <button class="btn-primary" onclick="navigate(6)">Advance to Housing Pathway</button>
-          </div>
-        `
+        badge: "Disability Gate",
+        render: () => `<div class="module-card"><h2>Medical & Behavioral Gate</h2><p class="description">Clinical documentation and treatment enrollment.</p><button class="btn-primary" onclick="navigate(6)">Continue to Housing Gate</button></div>`
       },
       {
         title: "VI. Housing Remedies Module",
-        desc: "Housing Gate allocation.",
-        render: () => `
-          <div class="module-card">
-            <h2>Housing Placement Pipeline</h2>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> Emergency Housing Voucher (EHV)</label>
-              <label class="node-item"><input type="checkbox"> Rapid Rehousing (RRH) Intake</label>
-              <label class="node-item"><input type="checkbox"> Permanent Supportive Housing (PSH)</label>
-              <label class="node-item"><input type="checkbox"> Move-in Inspection & Lease Cleared</label>
-            </div>
-            <button class="btn-primary" onclick="navigate(7)">Open Economic Hub</button>
-          </div>
-        `
+        badge: "Housing Gate",
+        render: () => `<div class="module-card"><h2>Housing Placement Pathway</h2><p class="description">Rapid Rehousing and Permanent Supportive Housing pipelines.</p><button class="btn-primary" onclick="navigate(7)">Continue to Economic Gate</button></div>`
       },
       {
         title: "VII. Employment & Income Module",
-        desc: "Economic Gate.",
-        render: () => `
-          <div class="module-card">
-            <h2>Economic Stabilization</h2>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> Employment Eligibility Verified (I-9 / RTW)</label>
-              <label class="node-item"><input type="checkbox"> Commercial / Vocational Placement</label>
-              <label class="node-item"><input type="checkbox"> Deposit & Bank Account Restoration</label>
-              <label class="node-item"><input type="checkbox"> Sustained Monthly Income Baseline Reached</label>
-            </div>
-            <button class="btn-primary" onclick="navigate(8)">Proceed to Legal Resolution</button>
-          </div>
-        `
+        badge: "Economic Gate",
+        render: () => `<div class="module-card"><h2>Economic Stabilization</h2><p class="description">Workforce re-entry and direct banking infrastructure.</p><button class="btn-primary" onclick="navigate(8)">Continue to Legal Gate</button></div>`
       },
       {
         title: "VIII. Legal Remedies Module",
-        desc: "Legal Gate — statutory clearance.",
-        render: () => `
-          <div class="module-card">
-            <h2>Legal Stability Hub</h2>
-            <div class="node-list">
-              <label class="node-item"><input type="checkbox"> Municipal Warrant Clearances</label>
-              <label class="node-item"><input type="checkbox"> Ticket & Fine Remediation</label>
-              <label class="node-item"><input type="checkbox"> Support Obligation Modifications</label>
-              <label class="node-item"><input type="checkbox"> Legal Aid Attorney Retainer</label>
-            </div>
-            <button class="btn-primary" onclick="navigate(9)">Execute Final Restoration</button>
-          </div>
-        `
+        badge: "Legal Gate",
+        render: () => `<div class="module-card"><h2>Legal Stability Hub</h2><p class="description">Municipal court resolution, fines mitigation, and legal aid enrollment.</p><button class="btn-primary" onclick="navigate(9)">Final Sovereign Gate</button></div>`
       },
       {
         title: "IX. Sovereign Gate",
-        desc: "Complete jurisdictional restoration.",
-        render: () => `
-          <div class="module-card">
-            <h2>Sovereign Restoration Dashboard</h2>
-            <p class="description">Jurisdictional stability verification complete across all operational pillars.</p>
-            <div class="node-list">
-              <div class="node-item" style="border-left: 4px solid var(--success);"> Housing Standing: SECURED</div>
-              <div class="node-item" style="border-left: 4px solid var(--success);"> Economic Standing: SUSTAINED</div>
-              <div class="node-item" style="border-left: 4px solid var(--success);"> Medical Integration: DOCUMENTED</div>
-              <div class="node-item" style="border-left: 4px solid var(--success);"> Civil & Legal Standing: RESOLVED</div>
-            </div>
-            <button class="btn-primary" style="background:var(--success);" onclick="alert('Remedy File Certified: Sovereign Record Generated.')">Print Sovereign Certificate</button>
-            <button class="btn-secondary" onclick="navigate(0)">Reset to Gate 0</button>
-          </div>
-        `
+        badge: "Sovereign Restoration",
+        render: () => `<div class="module-card"><h2>Sovereign Restoration Dashboard</h2><p class="description">Multi-domain self-sufficiency and civil status verified.</p><button class="btn-secondary" onclick="navigate(0)">Return to Entry Gate</button></div>`
       }
     ];
 
+    function toggleDoc(key, value) {
+      docState[key] = value;
+      // Re-render the active screen to update progress and button status immediately
+      navigate(2);
+    }
+
     function navigate(index) {
+      activeGate = index;
       const container = document.getElementById('content-container');
       container.innerHTML = screens[index].render();
       
+      // Update sidebar active highlights
       const navItems = document.querySelectorAll('.nav-item');
       navItems.forEach((el, idx) => {
         el.classList.toggle('active', idx === index);
       });
+
+      // Update badge tracker in sidebar
+      const completedDocs = Object.values(docState).filter(Boolean).length;
+      const docBadge = document.getElementById('doc-badge');
+      if (docBadge) {
+        docBadge.textContent = `${completedDocs}/4`;
+        docBadge.style.color = completedDocs === 4 ? "var(--success)" : "var(--accent-gold)";
+      }
     }
 
-    function updateProgress(box) {
-      const parent = box.closest('.module-card');
-      const all = parent.querySelectorAll('input[type="checkbox"]');
-      const checked = parent.querySelectorAll('input[type="checkbox"]:checked');
-      const pct = (checked.length / all.length) * 100;
-      const bar = document.getElementById('doc-bar');
-      if (bar) bar.style.width = pct + '%';
-    }
-
-    // Initialize to Screen 0
-    navigate(0);
+    // Initialize straight to Identity Gate Active View
+    navigate(2);
   </script>
 </body>
 </html>
