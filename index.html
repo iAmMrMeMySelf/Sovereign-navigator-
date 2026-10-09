@@ -614,7 +614,7 @@
       a.click();
       a.remove();
     }
-    function importJSON(event) {
+        function importJSON(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
@@ -693,6 +693,8 @@
         }
       };
       reader.readAsText(file);
+    }
+
     }
 
     }
