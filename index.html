@@ -11,404 +11,370 @@
   <meta name="theme-color" content="#020617">
 
   <style>
-    /* Full Offline Fallback Styling - Zero External CDNs */
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #020617; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
-    header { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid #1e293b; padding: 14px 16px; position: sticky; top: 0; z-index: 50; }
-    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #020617; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+    
+    header { background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid #1e293b; padding: 14px 16px; position: sticky; top: 0; z-index: 50; }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    
     main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
-    @media (min-width: 768px) { main { display: grid; grid-template-columns: 4fr 8fr; align-items: start; } }
+    @media (min-width: 768px) {
+      main { display: grid; grid-template-columns: 4fr 8fr; align-items: start; }
+    }
+
     .glass-panel { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; }
-    .btn-blue { background: #2563eb; color: #fff; font-weight: 600; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; text-align: center; display: block; width: 100%; text-decoration: none; }
-    .btn-blue:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-secondary { background: #1e293b; color: #cbd5e1; font-weight: 500; padding: 12px 16px; border-radius: 8px; border: 1px solid #334155; cursor: pointer; text-align: center; }
-    .input-field { width: 100%; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 12px; color: #fff; margin-top: 4px; font-size: 14px; }
-    .input-field:focus { outline: 2px solid #2563eb; }
     .hidden { display: none !important; }
-    .active-nav-item { background: #1e293b; border-left: 3px solid #3b82f6; color: #fff !important; }
+    
+    .btn-blue { background: #2563eb; color: #ffffff; font-weight: 600; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; text-align: center; display: block; width: 100%; text-decoration: none; font-size: 14px; }
+    .btn-blue:active { background: #1d4ed8; }
+    .btn-blue:disabled { opacity: 0.35; cursor: not-allowed; }
+    
+    .btn-secondary { background: #1e293b; color: #cbd5e1; font-weight: 500; padding: 12px 16px; border-radius: 8px; border: 1px solid #334155; cursor: pointer; text-align: center; font-size: 14px; }
+    .btn-secondary:active { background: #334155; }
+    
+    .btn-small { padding: 6px 10px; font-size: 11px; border-radius: 6px; font-family: ui-monospace, monospace; cursor: pointer; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; }
+    .btn-emerald { color: #34d399; border-color: rgba(5, 150, 105, 0.4); }
+
+    .input-field { width: 100%; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 12px; color: #ffffff; margin-top: 4px; font-size: 14px; outline: none; }
+    .input-field:focus { border-color: #3b82f6; }
+
+    .check-card { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: rgba(2, 6, 23, 0.6); border: 1px solid #1e293b; border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
+    .check-card input { margin-top: 3px; width: 18px; height: 18px; accent-color: #2563eb; }
+
+    .nav-btn { width: 100%; text-align: left; padding: 10px 12px; border-radius: 6px; font-size: 12px; font-family: ui-monospace, monospace; color: #94a3b8; background: transparent; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .active-nav-item { background: #1e293b; border-left: 3px solid #3b82f6; color: #ffffff !important; }
+    
+    .progress-track { width: 100%; background: #1e293b; height: 8px; border-radius: 999px; overflow: hidden; margin-top: 8px; }
+    .progress-fill { background: #10b981; height: 100%; width: 0%; transition: width 0.25s ease; }
+
+    .directory-item { padding: 10px; background: rgba(2, 6, 23, 0.5); border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 8px; font-size: 12px; }
+    .directory-item a { color: #60a5fa; text-decoration: none; display: inline-block; margin-top: 4px; font-family: ui-monospace, monospace; }
   </style>
 </head>
-
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+<body>
 
   <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/60 sticky top-0 z-50 px-4 md:px-6 py-3.5 backdrop-blur">
-    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+  <header>
+    <div class="header-inner">
       <div>
-        <h1 class="text-base md:text-lg font-bold tracking-tight text-white flex items-center gap-2">
-          <span>SOVEREIGN NAVIGATOR</span>
-        </h1>
-        <p class="text-[10px] text-slate-400 font-mono tracking-wide uppercase">Remedy & Re-Stabilization Matrix</p>
+        <h1 style="font-size: 15px; font-weight: 700; letter-spacing: -0.01em;">SOVEREIGN NAVIGATOR</h1>
+        <p style="font-size: 10px; color: #94a3b8; font-family: ui-monospace, monospace;">REMEDY & RE-STABILIZATION MATRIX</p>
       </div>
 
-      <!-- Case Profile Selector & Actions -->
-      <div class="flex items-center gap-2">
-        <select id="caseSelector" onchange="switchCase(this.value)" class="bg-slate-900 border border-slate-700 text-xs rounded-lg px-2 py-1.5 text-white font-mono focus:outline-none">
-          <!-- Populated dynamically -->
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <select id="caseSelector" onchange="switchCase(this.value)" class="input-field" style="width: auto; padding: 6px 10px; margin: 0; font-size: 12px; font-family: ui-monospace, monospace;">
         </select>
-        <button onclick="createNewCase()" class="text-xs bg-blue-600 hover:bg-blue-500 font-mono text-white px-2.5 py-1.5 rounded-lg transition">
-          + New
-        </button>
+        <button onclick="createNewCase()" class="btn-blue" style="width: auto; padding: 6px 12px; font-size: 12px; font-family: ui-monospace, monospace;">+ New</button>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-6xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 flex-1">
-
-    <!-- Sidebar / Collapsible Mobile Index -->
-    <aside class="md:col-span-4 space-y-4">
-      <div class="glass-panel p-4 rounded-xl border border-slate-800">
-        <div class="flex justify-between items-center cursor-pointer md:cursor-default" onclick="toggleNav()">
-          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2">Pipeline Index</h2>
-          <span id="navToggleIcon" class="text-xs text-slate-400 md:hidden font-mono">[Toggle]</span>
+  <main>
+    <!-- Sidebar / Directory -->
+    <aside style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="glass-panel" style="padding: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleNav()">
+          <span style="font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase;">Pipeline Index</span>
+          <span id="navToggleIcon" style="font-size: 11px; color: #64748b; font-family: ui-monospace, monospace;">[Toggle]</span>
         </div>
-        <nav class="space-y-1 mt-3" id="navContainer">
-          <!-- Dynamically populated -->
+        <nav id="navContainer" style="margin-top: 10px; display: flex; flex-direction: column; gap: 2px;">
         </nav>
       </div>
 
-      <!-- Waco CoC Field Hub -->
-      <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
-        <h3 class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Waco Continuum Directory</h3>
-        <div class="space-y-2 text-xs">
-          <div class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800/80">
-            <p class="font-bold text-white">My Brother's Keeper / Meyer Center</p>
-            <p class="text-[11px] text-slate-400">1226 Washington Ave | Day Shelter & Vitals</p>
-            <a href="tel:2547534593" class="text-blue-400 font-mono text-[11px] hover:underline block mt-1">📞 (254) 753-4593</a>
-          </div>
-          <div class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800/80">
-            <p class="font-bold text-white">Salvation Army Community Center</p>
-            <p class="text-[11px] text-slate-400">4721 W Waco Dr | Emergency Shelter Intake</p>
-            <a href="tel:2547567271" class="text-blue-400 font-mono text-[11px] hover:underline block mt-1">📞 (254) 756-7271</a>
-          </div>
-          <div class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800/80">
-            <p class="font-bold text-white">Heart of Texas BHN Crisis Line</p>
-            <p class="text-[11px] text-slate-400">110 S 12th St | 24/7 Behavioral Triage</p>
-            <a href="tel:8665258357" class="text-rose-400 font-mono text-[11px] hover:underline block mt-1">📞 (866) 525-8357</a>
-          </div>
+      <div class="glass-panel" style="padding: 14px;">
+        <span style="font-size: 11px; font-weight: 700; color: #34d399; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 8px;">Waco Continuum Directory</span>
+        <div class="directory-item">
+          <strong>Meyer Center / My Brother's Keeper</strong>
+          <p style="color: #94a3b8; font-size: 11px;">1226 Washington Ave | Day Shelter & Vitals</p>
+          <a href="tel:2547534593">📞 (254) 753-4593</a>
+        </div>
+        <div class="directory-item">
+          <strong>Salvation Army Community Center</strong>
+          <p style="color: #94a3b8; font-size: 11px;">4721 W Waco Dr | Emergency Shelter Intake</p>
+          <a href="tel:2547567271">📞 (254) 756-7271</a>
+        </div>
+        <div class="directory-item">
+          <strong>Heart of Texas BHN Crisis Line</strong>
+          <p style="color: #94a3b8; font-size: 11px;">110 S 12th St | 24/7 Behavioral Triage</p>
+          <a href="tel:8665258357" style="color: #f43f5e;">📞 (866) 525-8357</a>
         </div>
       </div>
     </aside>
 
-    <!-- Stage Panels -->
-    <section class="md:col-span-8 flex flex-col">
-      <div id="stageContainer" class="glass-panel p-6 rounded-xl flex-1 flex flex-col border border-slate-800">
+    <!-- Stage Content Panels -->
+    <section>
+      <div class="glass-panel" id="stageContainer">
 
-        <!-- Stage 0: Entry Gate -->
-        <div id="stage-0" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Entry Gate</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Sovereign Navigator — Remedy Pathway</h2>
-            <p class="text-sm text-slate-400 mt-2">Establish the individual's baseline jurisdictional standing to route intake priority and resources.</p>
+        <!-- Stage 0 -->
+        <div id="stage-0" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.05em;">Entry Gate</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Sovereign Navigator — Remedy Pathway</h2>
+            <p style="font-size: 13px; color: #94a3b8; margin-top: 6px;">Establish baseline standing to route intake priority and resources.</p>
           </div>
-          <div class="space-y-4">
-            <button onclick="goToStage(1)" class="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-500 font-medium rounded-lg shadow-lg shadow-blue-900/30 transition text-center block">
-              Begin Intake & Triage
-            </button>
-            <button onclick="goToStage(2)" class="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-lg border border-slate-700 transition">
-              Open Identity Gate
-            </button>
-          </div>
+          <button onclick="goToStage(1)" class="btn-blue">Begin Intake & Triage</button>
+          <button onclick="goToStage(2)" class="btn-secondary">Open Identity Gate</button>
         </div>
 
-        <!-- Stage I: Unsheltered Intake -->
-        <div id="stage-1" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage I — Contact</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Unsheltered Intake & Triage</h2>
-            <p class="text-sm text-slate-400 mt-2">Capture immediate crisis variables and field triage indicators.</p>
+        <!-- Stage I -->
+        <div id="stage-1" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage I — Contact</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Unsheltered Intake & Triage</h2>
           </div>
-          <form id="intakeForm" class="space-y-4" onsubmit="event.preventDefault(); goToStage(2);">
+          <form onsubmit="event.preventDefault(); goToStage(2);" style="display: flex; flex-direction: column; gap: 12px;">
             <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Individual / Legal Name</label>
-              <input type="text" id="intake_name" placeholder="First Last" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
+              <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Individual / Legal Name</label>
+              <input type="text" id="intake_name" placeholder="First Last" class="input-field">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Known Alias / Street Moniker</label>
-              <input type="text" id="intake_alias" placeholder="Known identifier" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
+              <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Known Alias / Moniker</label>
+              <input type="text" id="intake_alias" placeholder="Street moniker" class="input-field">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Location Last Slept</label>
-              <input type="text" id="intake_location" placeholder="e.g. 215 Washington Ave, Waco, TX" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
+              <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Location Last Slept</label>
+              <input type="text" id="intake_location" placeholder="e.g. 215 Washington Ave, Waco, TX" class="input-field">
             </div>
-            <div class="flex gap-3 pt-4">
-              <button type="button" onclick="goToStage(0)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-              <button type="submit" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Advance to Identity Gate</button>
+            <div style="display: flex; gap: 10px; margin-top: 8px;">
+              <button type="button" onclick="goToStage(0)" class="btn-secondary" style="flex: 1;">Back</button>
+              <button type="submit" class="btn-blue" style="flex: 2;">Advance to Identity Gate</button>
             </div>
           </form>
         </div>
 
-        <!-- Stage II: Identity Gate -->
-        <div id="stage-2" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Active View — Stage II</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Identity Documentation Gate</h2>
-            <p class="text-sm text-slate-400 mt-2">Verification of vital records is required before federal Continuum of Care prioritization.</p>
+        <!-- Stage II -->
+        <div id="stage-2" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Active View — Stage II</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Identity Documentation Gate</h2>
           </div>
 
-          <div class="p-3.5 bg-blue-950/30 border-l-4 border-amber-500 rounded-r-lg text-xs text-slate-300">
-            <strong class="text-amber-400">Jurisdiction Requirement:</strong> Federal HMIS coordinated entry matches individuals to housing pathways based on verified civil documentation. All four milestones must be established.
-          </div>
-
-          <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-lg space-y-2">
-            <div class="flex justify-between items-center text-xs font-medium">
-              <span class="text-slate-400">Document Recovery Status</span>
-              <span id="stage2_counter" class="text-emerald-400 font-mono">0% Complete (0/4)</span>
+          <div style="background: rgba(2, 6, 23, 0.8); border: 1px solid #1e293b; border-radius: 8px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+              <span style="color: #94a3b8;">Document Recovery Status</span>
+              <span id="stage2_counter" style="color: #34d399; font-family: ui-monospace, monospace;">0% (0/4)</span>
             </div>
-            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-              <div id="stage2_bar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
-            </div>
+            <div class="progress-track"><div id="stage2_bar" class="progress-fill"></div></div>
           </div>
 
-          <div class="space-y-3" id="stage2_checklist">
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="doc_state_id" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0" onchange="syncStageChecklists(2, 4)">
+          <div>
+            <label class="check-card">
+              <input type="checkbox" id="doc_state_id" onchange="syncStageChecklists(2, 4)">
               <div>
-                <p class="text-sm font-semibold text-white">State ID Restoration</p>
-                <p class="text-xs text-slate-400">Certified state driver license or official non-driver photo identification.</p>
+                <strong style="font-size: 13px; display: block;">State ID Restoration</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Certified driver license or official state photo ID.</p>
               </div>
             </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="doc_birth_cert" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0" onchange="syncStageChecklists(2, 4)">
+            <label class="check-card">
+              <input type="checkbox" id="doc_birth_cert" onchange="syncStageChecklists(2, 4)">
               <div>
-                <p class="text-sm font-semibold text-white">Birth Certificate Retrieval</p>
-                <p class="text-xs text-slate-400">Certified state vital statistics registry copy bearing an official raised seal.</p>
+                <strong style="font-size: 13px; display: block;">Birth Certificate Retrieval</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Vital statistics copy with official raised seal.</p>
               </div>
             </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="doc_ss_card" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0" onchange="syncStageChecklists(2, 4)">
+            <label class="check-card">
+              <input type="checkbox" id="doc_ss_card" onchange="syncStageChecklists(2, 4)">
               <div>
-                <p class="text-sm font-semibold text-white">Social Security Card Replacement</p>
-                <p class="text-xs text-slate-400">Official Social Security Administration card for legal employment verification.</p>
+                <strong style="font-size: 13px; display: block;">Social Security Card Replacement</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Official SSA employment card.</p>
               </div>
             </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="doc_address" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0" onchange="syncStageChecklists(2, 4)">
+            <label class="check-card">
+              <input type="checkbox" id="doc_address" onchange="syncStageChecklists(2, 4)">
               <div>
-                <p class="text-sm font-semibold text-white">Address Establishment</p>
-                <p class="text-xs text-slate-400">Valid daytime delivery address (designated shelter, day center, or general delivery).</p>
+                <strong style="font-size: 13px; display: block;">Address Establishment</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Daytime delivery address at shelter or clinic.</p>
               </div>
             </label>
           </div>
 
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(1)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button id="stage2_advanceBtn" onclick="goToStage(3)" disabled class="w-2/3 py-3 bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Advance to HMIS Gate</button>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="goToStage(1)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button id="stage2_advanceBtn" onclick="goToStage(3)" disabled class="btn-blue" style="flex: 2;">Advance to HMIS Gate</button>
           </div>
         </div>
 
-        <!-- Stage III: HMIS Gate -->
-        <div id="stage-3" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage III — Federal Gate</span>
-            <h2 class="text-2xl font-bold text-white mt-1">HMIS Coordinated Entry</h2>
-            <p class="text-sm text-slate-400 mt-2">Continuum of Care allocation and Vulnerability Index scoring.</p>
+        <!-- Stage III -->
+        <div id="stage-3" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage III — Federal Gate</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">HMIS Coordinated Entry</h2>
           </div>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Generated HMIS Universal ID</label>
-              <input type="text" id="hmis_id" value="TX-COC-2026-DOC-VERIFIED" readonly class="w-full bg-slate-900 border border-slate-800 text-slate-400 font-mono rounded-lg p-3 text-sm focus:outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">VI-SPDAT Acuity Score (1–17)</label>
-              <input type="number" id="hmis_acuity" min="1" max="17" placeholder="Acuity Rating (e.g. 17)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Lead Agency / Navigator Name</label>
-              <input type="text" id="hmis_navigator" placeholder="Assigned Case Worker or Org" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
-            </div>
+          <div>
+            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">HMIS Universal ID</label>
+            <input type="text" id="hmis_id" value="TX-COC-2026-DOC-VERIFIED" readonly class="input-field" style="color: #64748b; font-family: ui-monospace, monospace;">
           </div>
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(2)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(4)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Advance to Benefits Hub</button>
+          <div>
+            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">VI-SPDAT Acuity Score (1–17)</label>
+            <input type="number" id="hmis_acuity" min="1" max="17" placeholder="Acuity Score" class="input-field">
+          </div>
+          <div>
+            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Lead Agency / Navigator Name</label>
+            <input type="text" id="hmis_navigator" placeholder="Assigned Worker / PurposeFlow" class="input-field">
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 8px;">
+            <button onclick="goToStage(2)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(4)" class="btn-blue" style="flex: 2;">Advance to Benefits Hub</button>
           </div>
         </div>
 
-        <!-- Stage IV: Benefits Hub -->
-        <div id="stage-4" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage IV</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Benefits Hub</h2>
-            <p class="text-sm text-slate-400 mt-2">SNAP, Medicaid, and SSI/SSDI entitlement screenings.</p>
+        <!-- Stage IV -->
+        <div id="stage-4" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage IV</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Benefits Hub</h2>
           </div>
-
-          <div class="space-y-3">
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="ben_snap" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
+          <div>
+            <label class="check-card">
+              <input type="checkbox" id="ben_snap">
               <div>
-                <p class="text-sm font-semibold text-white">SNAP Nutrition Assistance</p>
-                <p class="text-xs text-slate-400">Electronic Benefit Transfer card activated for immediate monthly nutrition baseline.</p>
+                <strong style="font-size: 13px; display: block;">SNAP Nutrition Assistance</strong>
+                <p style="font-size: 11px; color: #94a3b8;">EBT baseline active.</p>
               </div>
             </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="ben_medicaid" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
+            <label class="check-card">
+              <input type="checkbox" id="ben_medicaid">
               <div>
-                <p class="text-sm font-semibold text-white">Medicaid / Healthcare Coverage</p>
-                <p class="text-xs text-slate-400">Enrolled in state health coverage or Waco Family Medicine Clinic.</p>
+                <strong style="font-size: 13px; display: block;">Medicaid / Healthcare Coverage</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Health coverage verified.</p>
               </div>
             </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="ben_ssi" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
+            <label class="check-card">
+              <input type="checkbox" id="ben_ssi">
               <div>
-                <p class="text-sm font-semibold text-white">SOAR / SSI / SSDI Case Initiated</p>
-                <p class="text-xs text-slate-400">SSA expedite documentation compiled under SSI/SSDI Outreach, Access, and Recovery.</p>
+                <strong style="font-size: 13px; display: block;">SOAR / SSI / SSDI Initiated</strong>
+                <p style="font-size: 11px; color: #94a3b8;">SSA claims expediting active.</p>
               </div>
             </label>
           </div>
-
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(3)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(5)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Continue to Medical Gate</button>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="goToStage(3)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(5)" class="btn-blue" style="flex: 2;">Continue to Medical Gate</button>
           </div>
         </div>
 
-        <!-- Stage V: Medical Gate -->
-        <div id="stage-5" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage V</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Medical & Behavioral Gate</h2>
-            <p class="text-sm text-slate-400 mt-2">Clinical documentation, treatment engagement, and specialized behavioral support.</p>
+        <!-- Stage V -->
+        <div id="stage-5" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage V</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Medical & Behavioral Gate</h2>
           </div>
-          <div class="space-y-4">
-            <textarea id="med_notes" rows="3" placeholder="Provider records (e.g., Waco Family Medicine / Heart of Texas BHN)..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white"></textarea>
+          <div>
+            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Provider Records & Clinical Notes</label>
+            <textarea id="med_notes" rows="3" placeholder="Clinical notes, HMR, health clinic..." class="input-field"></textarea>
           </div>
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(4)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(6)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Continue to Housing Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage VI: Housing Pathway -->
-        <div id="stage-6" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage VI</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Housing Placement Pathway</h2>
-            <p class="text-sm text-slate-400 mt-2">Rapid Rehousing (RRH) and Permanent Supportive Housing (PSH) pipelines.</p>
-          </div>
-
-          <div class="space-y-3">
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="house_rrh" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
-              <div>
-                <p class="text-sm font-semibold text-white">Rapid Re-Housing (RRH) Matched</p>
-                <p class="text-xs text-slate-400">Short-to-medium term rental subsidy queue activated.</p>
-              </div>
-            </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="house_psh" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
-              <div>
-                <p class="text-sm font-semibold text-white">Permanent Supportive Housing (PSH) Matched</p>
-                <p class="text-xs text-slate-400">Long-term lease assistance with permanent wraparound supportive services.</p>
-              </div>
-            </label>
-          </div>
-
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(5)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(7)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Continue to Economic Gate</button>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="goToStage(4)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(6)" class="btn-blue" style="flex: 2;">Continue to Housing Gate</button>
           </div>
         </div>
 
-        <!-- Stage VII: Economic Gate -->
-        <div id="stage-7" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage VII</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Economic Stabilization</h2>
-            <p class="text-sm text-slate-400 mt-2">Workforce re-entry, vocational placement, and banking access.</p>
+        <!-- Stage VI -->
+        <div id="stage-6" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage VI</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Housing Placement Pathway</h2>
           </div>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Target Employment Field / Trades</label>
-              <input type="text" id="econ_trade" placeholder="e.g. Director of PurposeFlow, Transportation, Landscaping" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
-            </div>
-          </div>
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(6)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(8)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Continue to Legal Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage VIII: Legal Stability -->
-        <div id="stage-8" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Stage VIII</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Legal Stability Hub</h2>
-            <p class="text-sm text-slate-400 mt-2">Municipal court resolution, fines mitigation, and legal aid enrollment.</p>
-          </div>
-
-          <div class="space-y-3">
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="legal_warrants" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
+          <div>
+            <label class="check-card">
+              <input type="checkbox" id="house_rrh">
               <div>
-                <p class="text-sm font-semibold text-white">Class C Municipal Warrant Clearance</p>
-                <p class="text-xs text-slate-400">Homeless court or community service credit applied to municipal citations.</p>
+                <strong style="font-size: 13px; display: block;">Rapid Re-Housing (RRH) Matched</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Short-to-medium rental subsidy queue active.</p>
               </div>
             </label>
-            <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
-              <input type="checkbox" id="legal_aid" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
+            <label class="check-card">
+              <input type="checkbox" id="house_psh">
               <div>
-                <p class="text-sm font-semibold text-white">Legal Aid Formal Retainer</p>
-                <p class="text-xs text-slate-400">Civil standing and identity document barriers represented by counsel.</p>
+                <strong style="font-size: 13px; display: block;">Permanent Supportive Housing (PSH) Matched</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Permanent supportive housing lease matched.</p>
               </div>
             </label>
           </div>
-
-          <div class="flex gap-3 pt-4">
-            <button onclick="goToStage(7)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(9)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Final Sovereign Gate</button>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="goToStage(5)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(7)" class="btn-blue" style="flex: 2;">Continue to Economic Gate</button>
           </div>
         </div>
 
-        <!-- Stage IX: Dashboard / Field Summary -->
-        <div id="stage-9" class="stage-view hidden space-y-6">
-          <div class="border-b border-slate-800 pb-4">
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Final Status</span>
-            <h2 class="text-2xl font-bold text-white mt-1">Sovereign Restoration Dashboard</h2>
-            <p class="text-sm text-slate-400 mt-2">Multi-domain self-sufficiency and civil status verified.</p>
+        <!-- Stage VII -->
+        <div id="stage-7" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage VII</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Economic Stabilization</h2>
+          </div>
+          <div>
+            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Target Enterprise / Trade</label>
+            <input type="text" id="econ_trade" placeholder="e.g. Garden of the Gods / Bethesda Foods" class="input-field">
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="goToStage(6)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(8)" class="btn-blue" style="flex: 2;">Continue to Legal Gate</button>
+          </div>
+        </div>
+
+        <!-- Stage VIII -->
+        <div id="stage-8" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage VIII</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Legal Stability Hub</h2>
+          </div>
+          <div>
+            <label class="check-card">
+              <input type="checkbox" id="legal_warrants">
+              <div>
+                <strong style="font-size: 13px; display: block;">Municipal Warrant Clearance</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Homeless court fine relief or community service credit.</p>
+              </div>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" id="legal_aid">
+              <div>
+                <strong style="font-size: 13px; display: block;">Legal Aid Formal Retainer</strong>
+                <p style="font-size: 11px; color: #94a3b8;">Civil standing advocacy established.</p>
+              </div>
+            </label>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="goToStage(7)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(9)" class="btn-blue" style="flex: 2;">Final Sovereign Gate</button>
+          </div>
+        </div>
+
+        <!-- Stage IX -->
+        <div id="stage-9" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase;">Final Status</span>
+            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Sovereign Restoration Dashboard</h2>
           </div>
 
-          <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-lg space-y-3 font-mono text-xs">
-            <h3 class="text-slate-300 font-bold uppercase tracking-wider text-sm border-b border-slate-800 pb-2">Compiled Intake Record</h3>
-            <div id="summaryDisplay" class="text-slate-300 space-y-1.5 leading-relaxed">
-              <!-- Rendered via JS -->
-            </div>
+          <div style="background: rgba(2, 6, 23, 0.9); border: 1px solid #1e293b; border-radius: 8px; padding: 14px; font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.6;">
+            <strong style="color: #cbd5e1; display: block; border-bottom: 1px solid #1e293b; padding-bottom: 6px; margin-bottom: 8px;">COMPILED INTAKE RECORD</strong>
+            <div id="summaryDisplay"></div>
           </div>
 
-          <!-- Single Case Exports -->
-          <div class="grid grid-cols-2 gap-3">
-            <button onclick="copyBrief()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-xs font-mono font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-2 transition">
-              <span id="copyBtnText">Copy Case Brief</span>
-            </button>
-            <button onclick="downloadRecord()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-xs font-mono font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-2 transition">
-              <span>Download Record (.txt)</span>
-            </button>
+          <!-- Exports -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button onclick="copyBrief()" class="btn-secondary" id="copyBtnText" style="padding: 10px; font-size: 12px; font-family: ui-monospace, monospace;">Copy Case Brief</button>
+            <button onclick="downloadRecord()" class="btn-secondary" style="padding: 10px; font-size: 12px; font-family: ui-monospace, monospace;">Download (.txt)</button>
           </div>
 
-          <!-- Consolidated Batch Exports -->
-          <div class="grid grid-cols-2 gap-3 pt-2">
-            <button onclick="exportAllBriefsTxt()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-emerald-400 rounded-lg border border-emerald-900/50 hover:border-emerald-700 transition">
-              Download All Briefs (.txt)
-            </button>
-            <button onclick="exportDocketCSV()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-emerald-400 rounded-lg border border-emerald-900/50 hover:border-emerald-700 transition">
-              Export Docket Matrix (.csv)
-            </button>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button onclick="exportAllBriefsTxt()" class="btn-small btn-emerald">Download All Briefs (.txt)</button>
+            <button onclick="exportDocketCSV()" class="btn-small btn-emerald">Export Matrix (.csv)</button>
           </div>
 
-          <!-- JSON Store Import/Export -->
-          <div class="grid grid-cols-2 gap-3 pt-1">
-            <button onclick="exportAllJSON()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-slate-300 rounded-lg border border-slate-800 transition">
-              Export Docket (.json)
-            </button>
-            <label class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-slate-300 rounded-lg border border-slate-800 transition text-center cursor-pointer">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button onclick="exportAllJSON()" class="btn-small">Export Docket (.json)</button>
+            <label class="btn-small" style="text-align: center; display: block;">
               Import Docket
-              <input type="file" accept=".json,.txt,text/plain,application/json" onchange="importJSON(event)" class="hidden">
+              <input type="file" accept=".json,.txt,text/plain,application/json" onchange="importJSON(event)" style="display: none;">
             </label>
           </div>
 
-          <div class="flex gap-3 pt-4 border-t border-slate-800/80">
-            <button onclick="goToStage(8)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
-            <button onclick="goToStage(0)" class="w-2/3 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium text-sm transition">Return to Entry Gate</button>
+          <div style="display: flex; gap: 10px; margin-top: 8px; border-top: 1px solid #1e293b; padding-top: 12px;">
+            <button onclick="goToStage(8)" class="btn-secondary" style="flex: 1;">Back</button>
+            <button onclick="goToStage(0)" class="btn-blue" style="flex: 2;">Return to Entry Gate</button>
           </div>
         </div>
 
@@ -477,9 +443,9 @@
     function renderNav() {
       const container = document.getElementById("navContainer");
       container.innerHTML = STAGES.map(s => `
-        <button onclick="handleNavClick(${s.id})" id="nav-btn-${s.id}" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono text-slate-400 hover:bg-slate-800 hover:text-white transition flex justify-between items-center">
+        <button onclick="handleNavClick(${s.id})" id="nav-btn-${s.id}" class="nav-btn">
           <span>${s.label}</span>
-          <span id="badge-${s.id}" class="text-[10px] text-emerald-400 font-bold hidden">✓</span>
+          <span id="badge-${s.id}" style="color: #34d399; font-weight: bold; display: none;">✓</span>
         </button>
       `).join("");
     }
@@ -519,18 +485,17 @@
         const c4 = document.getElementById("doc_address").checked;
         const count = [c1, c2, c3, c4].filter(Boolean).length;
 
-        document.getElementById("stage2_counter").innerText = `${Math.round((count / total) * 100)}% Complete (${count}/${total})`;
+        document.getElementById("stage2_counter").innerText = `${Math.round((count / total) * 100)}% (${count}/${total})`;
         document.getElementById("stage2_bar").style.width = `${(count / total) * 100}%`;
 
-        const advanceBtn = document.getElementById("stage2_advanceBtn");
-        advanceBtn.disabled = count !== 4;
+        document.getElementById("stage2_advanceBtn").disabled = count !== 4;
         
         const badge = document.getElementById("badge-2");
         if (count === 4) {
-          badge.classList.remove("hidden");
+          badge.style.display = "inline";
           badge.innerText = "4/4";
         } else {
-          badge.classList.add("hidden");
+          badge.style.display = "none";
         }
       }
       saveActiveCase();
@@ -556,41 +521,27 @@
     function renderSummary() {
       const d = getSummaryData();
       document.getElementById("summaryDisplay").innerHTML = `
-        <p><strong class="text-white">Subject:</strong> ${d.name} (Alias: ${d.alias})</p>
-        <p><strong class="text-white">Location Last Slept:</strong> ${d.location}</p>
-        <p><strong class="text-white">Civil Documents:</strong> ${d.docsComplete ? '<span class="text-emerald-400">Verified (4/4)</span>' : '<span class="text-amber-400">Incomplete</span>'}</p>
-        <p><strong class="text-white">HMIS Acuity Score:</strong> ${d.acuity} | Navigator: ${d.navigator}</p>
-        <p><strong class="text-white">Public Benefits:</strong> SNAP: ${d.snap} | Medicaid: ${d.medicaid}</p>
-        <p><strong class="text-white">Housing Placements:</strong> RRH: ${d.rrh} | PSH: ${d.psh}</p>
-        <p><strong class="text-white">Target Trades:</strong> ${d.trade}</p>
-        <p><strong class="text-white">Legal Warrants:</strong> ${d.legalWarrants}</p>
+        <p><strong>Subject:</strong> ${d.name} (Alias: ${d.alias})</p>
+        <p><strong>Location Last Slept:</strong> ${d.location}</p>
+        <p><strong>Civil Documents:</strong> ${d.docsComplete ? '<span style="color:#34d399">Verified (4/4)</span>' : '<span style="color:#f59e0b">Incomplete</span>'}</p>
+        <p><strong>HMIS Acuity Score:</strong> ${d.acuity} | Navigator: ${d.navigator}</p>
+        <p><strong>Public Benefits:</strong> SNAP: ${d.snap} | Medicaid: ${d.medicaid}</p>
+        <p><strong>Housing Placements:</strong> RRH: ${d.rrh} | PSH: ${d.psh}</p>
+        <p><strong>Target Trades:</strong> ${d.trade}</p>
+        <p><strong>Legal Warrants:</strong> ${d.legalWarrants}</p>
       `;
     }
 
     function generateBriefText() {
       const d = getSummaryData();
-      return `SOVEREIGN NAVIGATOR — CASE BRIEF
-=================================
-Subject: ${d.name}
-Alias / Moniker: ${d.alias}
-Location Last Slept: ${d.location}
-Vital Civil Documents: ${d.docsComplete ? 'Verified (4/4)' : 'Pending'}
-HMIS Acuity Score: ${d.acuity}
-Lead Agency / Navigator: ${d.navigator}
-Public Benefits: SNAP: ${d.snap} | Medicaid: ${d.medicaid}
-Housing Placement Pathways: RRH: ${d.rrh} | PSH: ${d.psh}
-Target Trades / Field: ${d.trade}
-Legal Standing / Warrants: ${d.legalWarrants}
-Timestamp: ${new Date().toISOString()}
-=================================`;
+      return `SOVEREIGN NAVIGATOR — CASE BRIEF\n=================================\nSubject: ${d.name}\nAlias / Moniker: ${d.alias}\nLocation Last Slept: ${d.location}\nVital Civil Documents: ${d.docsComplete ? 'Verified (4/4)' : 'Pending'}\nHMIS Acuity Score: ${d.acuity}\nLead Agency / Navigator: ${d.navigator}\nPublic Benefits: SNAP: ${d.snap} | Medicaid: ${d.medicaid}\nHousing Placement Pathways: RRH: ${d.rrh} | PSH: ${d.psh}\nTarget Trades / Field: ${d.trade}\nLegal Standing / Warrants: ${d.legalWarrants}\nTimestamp: ${new Date().toISOString()}\n=================================`;
     }
 
     function copyBrief() {
-      const text = generateBriefText();
-      navigator.clipboard.writeText(text).then(() => {
-        const btnText = document.getElementById("copyBtnText");
-        btnText.innerText = "Copied to Clipboard!";
-        setTimeout(() => { btnText.innerText = "Copy Case Brief"; }, 2000);
+      navigator.clipboard.writeText(generateBriefText()).then(() => {
+        const btn = document.getElementById("copyBtnText");
+        btn.innerText = "Copied!";
+        setTimeout(() => { btn.innerText = "Copy Case Brief"; }, 2000);
       });
     }
 
@@ -598,45 +549,22 @@ Timestamp: ${new Date().toISOString()}
       const text = generateBriefText();
       const d = getSummaryData();
       const blob = new Blob([text], { type: "text/plain" });
-      const anchor = document.createElement("a");
-      anchor.download = `Sovereign_Intake_${(d.name || "Subject").replace(/\\s+/g, '_')}.txt`;
-      anchor.href = URL.createObjectURL(blob);
-      anchor.click();
+      const a = document.createElement("a");
+      a.download = `Sovereign_Intake_${(d.name || "Subject").replace(/\\s+/g, '_')}.txt`;
+      a.href = URL.createObjectURL(blob);
+      a.click();
     }
 
     function exportAllBriefsTxt() {
       const keys = Object.keys(docketStore);
       if (keys.length === 0) return alert("Docket is empty.");
       
-      let consolidated = "SOVEREIGN NAVIGATOR — MASTER DOCKET BRIEF\n";
-      consolidated += "Generated: " + new Date().toISOString() + "\n";
-      consolidated += "==================================================\n\n";
-
+      let consolidated = "SOVEREIGN NAVIGATOR — MASTER DOCKET BRIEF\nGenerated: " + new Date().toISOString() + "\n==================================================\n\n";
       keys.forEach((key, index) => {
         const c = docketStore[key];
         const name = c.intake_name || c.name || "Unnamed";
-        const alias = c.intake_alias || "N/A";
-        const location = c.intake_location || "N/A";
-        const acuity = c.hmis_acuity || "Unrated";
-        const navigatorName = c.hmis_navigator || "Unassigned";
-        const trade = c.econ_trade || "Unspecified";
         const docs = (c.doc_state_id && c.doc_birth_cert && c.doc_ss_card && c.doc_address) ? "Verified (4/4)" : "Pending";
-        const snap = c.ben_snap ? "Enrolled" : "Pending";
-        const medicaid = c.ben_medicaid ? "Active" : "Pending";
-        const rrh = c.house_rrh ? "Yes" : "No";
-        const psh = c.house_psh ? "Yes" : "No";
-        const warrants = c.legal_warrants ? "Cleared" : "Active";
-
-        consolidated += `RECORD ${index + 1}: ${name.toUpperCase()}\n`;
-        consolidated += `Alias / Moniker: ${alias}\n`;
-        consolidated += `Location Last Slept: ${location}\n`;
-        consolidated += `Vital Civil Documents: ${docs}\n`;
-        consolidated += `HMIS Acuity Score: ${acuity} | Navigator: ${navigatorName}\n`;
-        consolidated += `Public Benefits: SNAP: ${snap} | Medicaid: ${medicaid}\n`;
-        consolidated += `Housing Placement: RRH: ${rrh} | PSH: ${psh}\n`;
-        consolidated += `Target Trades: ${trade}\n`;
-        consolidated += `Legal Standing: ${warrants}\n`;
-        consolidated += "--------------------------------------------------\n\n";
+        consolidated += `RECORD ${index + 1}: ${name.toUpperCase()}\nAlias: ${c.intake_alias || 'N/A'}\nLocation: ${c.intake_location || 'N/A'}\nCivil Docs: ${docs}\nHMIS Acuity: ${c.hmis_acuity || 'Unrated'} | Navigator: ${c.hmis_navigator || 'Unassigned'}\nBenefits: SNAP: ${c.ben_snap ? 'Enrolled' : 'Pending'} | Medicaid: ${c.ben_medicaid ? 'Active' : 'Pending'}\nHousing: RRH: ${c.house_rrh ? 'Yes' : 'No'} | PSH: ${c.house_psh ? 'Yes' : 'No'}\nTrades: ${c.econ_trade || 'Unspecified'}\nLegal: ${c.legal_warrants ? 'Cleared' : 'Active'}\n--------------------------------------------------\n\n`;
       });
 
       const blob = new Blob([consolidated], { type: "text/plain" });
@@ -651,7 +579,6 @@ Timestamp: ${new Date().toISOString()}
       if (keys.length === 0) return alert("Docket is empty.");
 
       const headers = ["Subject", "Alias", "Location", "Civil_Docs_Verified", "VI_SPDAT_Acuity", "Navigator", "SNAP", "Medicaid", "RRH_Matched", "PSH_Matched", "Target_Trade", "Warrants_Cleared"];
-      
       const rows = keys.map(key => {
         const c = docketStore[key];
         const docs = (c.doc_state_id && c.doc_birth_cert && c.doc_ss_card && c.doc_address) ? "4/4" : "Incomplete";
@@ -671,8 +598,7 @@ Timestamp: ${new Date().toISOString()}
         ].join(",");
       });
 
-      const csvContent = [headers.join(","), ...rows].join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob([[headers.join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8;" });
       const a = document.createElement("a");
       a.download = `Sovereign_Docket_${new Date().toISOString().slice(0, 10)}.csv`;
       a.href = URL.createObjectURL(blob);
@@ -681,12 +607,12 @@ Timestamp: ${new Date().toISOString()}
 
     function exportAllJSON() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(docketStore, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `Sovereign_Docket_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `Sovereign_Docket_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     }
 
     function importJSON(event) {
@@ -737,6 +663,13 @@ Timestamp: ${new Date().toISOString()}
       });
       syncStageChecklists(2, 4);
       populateCaseSelector();
+    }
+
+    // Unregister any stale worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let registration of registrations) registration.unregister();
+      });
     }
 
     window.addEventListener("DOMContentLoaded", () => {
