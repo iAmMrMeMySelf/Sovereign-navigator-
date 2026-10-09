@@ -614,26 +614,87 @@
       a.click();
       a.remove();
     }
-
     function importJSON(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function(e) {
+        const content = e.target.result.trim();
         try {
-          const imported = JSON.parse(e.target.result);
+          // Attempt 1: Standard JSON Docket Import
+          const imported = JSON.parse(content);
           if (typeof imported === 'object') {
             docketStore = imported;
             persistDocket();
             initDocket();
             loadCaseData();
             goToStage(0);
+            return;
           }
         } catch(err) {
-          alert("Invalid Docket File");
+          // Attempt 2: Auto-parse TXT Case Briefs into Docket Records
+          if (content.includes("SOVEREIGN NAVIGATOR") || content.includes("CASE BRIEF")) {
+            const records = content.split(/RECORD \d+:|--------------------------------------------------|=================================/).filter(r => r.includes("Subject:"));
+            
+            if (records.length > 0) {
+              records.forEach(rec => {
+                const getVal = (key) => {
+                  const match = rec.match(new RegExp(`${key}:\\s*([^\\n]+)`, 'i'));
+                  return match ? match[1].trim() : '';
+                };
+
+                const name = getVal("Subject") || "Imported Case";
+                const alias = getVal("Alias / Moniker") || getVal("Alias");
+                const location = getVal("Location Last Slept") || getVal("Location");
+                const docs = rec.includes("Verified (4/4)") || rec.includes("Verified");
+                const acuity = (rec.match(/Acuity(?: Score)?:\\s*(\\d+)/i) || [])[1] || "";
+                const navigator = (rec.match(/Navigator:\\s*([^\\n|]+)/i) || [])[1] || "";
+                const snap = rec.includes("SNAP: Enrolled") || rec.includes("SNAP: Yes");
+                const medicaid = rec.includes("Medicaid: Active") || rec.includes("Medicaid: Yes");
+                const rrh = rec.includes("RRH: Yes");
+                const psh = rec.includes("PSH: Yes");
+                const trade = getVal("Target Trades / Field") || getVal("Target Trades") || getVal("Trades");
+                const warrants = rec.includes("Cleared");
+
+                const caseId = "case_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+                docketStore[caseId] = {
+                  id: caseId,
+                  stage: 9,
+                  intake_name: name,
+                  intake_alias: alias,
+                  intake_location: location,
+                  doc_state_id: docs,
+                  doc_birth_cert: docs,
+                  doc_ss_card: docs,
+                  doc_address: docs,
+                  hmis_id: "TX-COC-2026-DOC-VERIFIED",
+                  hmis_acuity: acuity,
+                  hmis_navigator: navigator.trim(),
+                  ben_snap: snap,
+                  ben_medicaid: medicaid,
+                  ben_ssi: false,
+                  house_rrh: rrh,
+                  house_psh: psh,
+                  econ_trade: trade,
+                  legal_warrants: warrants,
+                  legal_aid: false
+                };
+              });
+
+              persistDocket();
+              initDocket();
+              loadCaseData();
+              goToStage(9);
+              alert("Successfully imported text brief(s) into active docket!");
+              return;
+            }
+          }
+          alert("Invalid Docket File: Please select a valid .json docket backup or .txt case brief.");
         }
       };
       reader.readAsText(file);
+    }
+
     }
 
     function persistDocket() {
