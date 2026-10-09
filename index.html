@@ -598,7 +598,7 @@ Timestamp: ${new Date().toISOString()}
       downloadAnchor.remove();
     }
 
-    function importJSON(event) {
+        function importJSON(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
@@ -630,6 +630,9 @@ Timestamp: ${new Date().toISOString()}
       document.querySelectorAll("input, textarea").forEach(el => {
         caseObj[el.id] = el.type === "checkbox" ? el.checked : el.value;
       });
+      persistDocket();
+    }
+
       persistDocket();
     }
 
