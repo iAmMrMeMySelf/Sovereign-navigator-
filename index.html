@@ -370,7 +370,7 @@
             </div>
           </div>
 
-          <!-- Export & Data Backup Hub -->
+          <!-- Single Case Exports -->
           <div class="grid grid-cols-2 gap-3">
             <button onclick="copyBrief()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-xs font-mono font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-2 transition">
               <span id="copyBtnText">Copy Case Brief</span>
@@ -380,13 +380,24 @@
             </button>
           </div>
 
+          <!-- Consolidated Batch Exports -->
           <div class="grid grid-cols-2 gap-3 pt-2">
+            <button onclick="exportAllBriefsTxt()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-emerald-400 rounded-lg border border-emerald-900/50 hover:border-emerald-700 transition">
+              Download All Briefs (.txt)
+            </button>
+            <button onclick="exportDocketCSV()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-emerald-400 rounded-lg border border-emerald-900/50 hover:border-emerald-700 transition">
+              Export Docket Matrix (.csv)
+            </button>
+          </div>
+
+          <!-- JSON Store Import/Export -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
             <button onclick="exportAllJSON()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-slate-300 rounded-lg border border-slate-800 transition">
               Export Docket (.json)
             </button>
             <label class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-slate-300 rounded-lg border border-slate-800 transition text-center cursor-pointer">
               Import Docket
-              <input type="file" accept=".json" onchange="importJSON(event)" class="hidden">
+              <input type="file" accept=".json,.txt,text/plain,application/json" onchange="importJSON(event)" class="hidden">
             </label>
           </div>
 
@@ -588,6 +599,81 @@ Timestamp: ${new Date().toISOString()}
       anchor.click();
     }
 
+    function exportAllBriefsTxt() {
+      const keys = Object.keys(docketStore);
+      if (keys.length === 0) return alert("Docket is empty.");
+      
+      let consolidated = "SOVEREIGN NAVIGATOR — MASTER DOCKET BRIEF\n";
+      consolidated += "Generated: " + new Date().toISOString() + "\n";
+      consolidated += "==================================================\n\n";
+
+      keys.forEach((key, index) => {
+        const c = docketStore[key];
+        const name = c.intake_name || c.name || "Unnamed";
+        const alias = c.intake_alias || "N/A";
+        const location = c.intake_location || "N/A";
+        const acuity = c.hmis_acuity || "Unrated";
+        const navigatorName = c.hmis_navigator || "Unassigned";
+        const trade = c.econ_trade || "Unspecified";
+        const docs = (c.doc_state_id && c.doc_birth_cert && c.doc_ss_card && c.doc_address) ? "Verified (4/4)" : "Pending";
+        const snap = c.ben_snap ? "Enrolled" : "Pending";
+        const medicaid = c.ben_medicaid ? "Active" : "Pending";
+        const rrh = c.house_rrh ? "Yes" : "No";
+        const psh = c.house_psh ? "Yes" : "No";
+        const warrants = c.legal_warrants ? "Cleared" : "Active";
+
+        consolidated += `RECORD ${index + 1}: ${name.toUpperCase()}\n`;
+        consolidated += `Alias / Moniker: ${alias}\n`;
+        consolidated += `Location Last Slept: ${location}\n`;
+        consolidated += `Vital Civil Documents: ${docs}\n`;
+        consolidated += `HMIS Acuity Score: ${acuity} | Navigator: ${navigatorName}\n`;
+        consolidated += `Public Benefits: SNAP: ${snap} | Medicaid: ${medicaid}\n`;
+        consolidated += `Housing Placement: RRH: ${rrh} | PSH: ${psh}\n`;
+        consolidated += `Target Trades: ${trade}\n`;
+        consolidated += `Legal Standing: ${warrants}\n`;
+        consolidated += "--------------------------------------------------\n\n";
+      });
+
+      const blob = new Blob([consolidated], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.download = `Sovereign_Master_Briefs_${new Date().toISOString().slice(0, 10)}.txt`;
+      a.href = URL.createObjectURL(blob);
+      a.click();
+    }
+
+    function exportDocketCSV() {
+      const keys = Object.keys(docketStore);
+      if (keys.length === 0) return alert("Docket is empty.");
+
+      const headers = ["Subject", "Alias", "Location", "Civil_Docs_Verified", "VI_SPDAT_Acuity", "Navigator", "SNAP", "Medicaid", "RRH_Matched", "PSH_Matched", "Target_Trade", "Warrants_Cleared"];
+      
+      const rows = keys.map(key => {
+        const c = docketStore[key];
+        const docs = (c.doc_state_id && c.doc_birth_cert && c.doc_ss_card && c.doc_address) ? "4/4" : "Incomplete";
+        return [
+          `"${c.intake_name || c.name || ''}"`,
+          `"${c.intake_alias || ''}"`,
+          `"${c.intake_location || ''}"`,
+          `"${docs}"`,
+          `"${c.hmis_acuity || ''}"`,
+          `"${c.hmis_navigator || ''}"`,
+          c.ben_snap ? "Yes" : "No",
+          c.ben_medicaid ? "Yes" : "No",
+          c.house_rrh ? "Yes" : "No",
+          c.house_psh ? "Yes" : "No",
+          `"${c.econ_trade || ''}"`,
+          c.legal_warrants ? "Cleared" : "Active"
+        ].join(",");
+      });
+
+      const csvContent = [headers.join(","), ...rows].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.download = `Sovereign_Docket_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.href = URL.createObjectURL(blob);
+      a.click();
+    }
+
     function exportAllJSON() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(docketStore, null, 2));
       const downloadAnchor = document.createElement('a');
@@ -598,7 +684,7 @@ Timestamp: ${new Date().toISOString()}
       downloadAnchor.remove();
     }
 
-        function importJSON(event) {
+    function importJSON(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
@@ -633,9 +719,6 @@ Timestamp: ${new Date().toISOString()}
       persistDocket();
     }
 
-      persistDocket();
-    }
-
     function loadCaseData() {
       const caseObj = docketStore[activeCaseId] || {};
       document.querySelectorAll("input, textarea").forEach(el => {
@@ -651,7 +734,6 @@ Timestamp: ${new Date().toISOString()}
       populateCaseSelector();
     }
 
-    // Direct Form Elements Binding
     window.addEventListener("DOMContentLoaded", () => {
       renderNav();
       initDocket();
