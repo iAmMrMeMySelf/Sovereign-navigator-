@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sovereign Navigator — Remedy & Re-Stabilization Matrix</title>
   
-  <!-- PWA & Mobile Optimization -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SovereignNav">
@@ -28,25 +27,32 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-blue-600 selection:text-white">
 
   <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/60 sticky top-0 z-50 px-6 py-4 backdrop-blur">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
+  <header class="border-b border-slate-800 bg-slate-900/60 sticky top-0 z-50 px-4 md:px-6 py-3.5 backdrop-blur">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
       <div>
-        <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+        <h1 class="text-base md:text-lg font-bold tracking-tight text-white flex items-center gap-2">
           <span>SOVEREIGN NAVIGATOR</span>
         </h1>
-        <p class="text-xs text-slate-400 font-mono tracking-wide uppercase">Remedy & Re-Stabilization Matrix</p>
+        <p class="text-[10px] text-slate-400 font-mono tracking-wide uppercase">Remedy & Re-Stabilization Matrix</p>
       </div>
-      <button onclick="resetMatrix()" class="text-xs text-rose-400 hover:text-rose-300 font-mono border border-rose-900/50 hover:border-rose-700 bg-rose-950/20 px-3 py-1.5 rounded transition">
-        Reset Form
-      </button>
+
+      <!-- Case Profile Selector & Actions -->
+      <div class="flex items-center gap-2">
+        <select id="caseSelector" onchange="switchCase(this.value)" class="bg-slate-900 border border-slate-700 text-xs rounded-lg px-2 py-1.5 text-white font-mono focus:outline-none">
+          <!-- Populated dynamically -->
+        </select>
+        <button onclick="createNewCase()" class="text-xs bg-blue-600 hover:bg-blue-500 font-mono text-white px-2.5 py-1.5 rounded-lg transition">
+          + New
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- Main Container -->
   <main class="max-w-6xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 flex-1">
 
-    <!-- Matrix Navigation Sidebar / Collapsible Mobile Index -->
-    <aside class="md:col-span-4 space-y-1">
+    <!-- Sidebar / Collapsible Mobile Index -->
+    <aside class="md:col-span-4 space-y-4">
       <div class="glass-panel p-4 rounded-xl border border-slate-800">
         <div class="flex justify-between items-center cursor-pointer md:cursor-default" onclick="toggleNav()">
           <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2">Pipeline Index</h2>
@@ -56,9 +62,31 @@
           <!-- Dynamically populated -->
         </nav>
       </div>
+
+      <!-- Waco CoC Field Hub -->
+      <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+        <h3 class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Waco Continuum Directory</h3>
+        <div class="space-y-2 text-xs">
+          <div class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800/80">
+            <p class="font-bold text-white">My Brother's Keeper / Meyer Center</p>
+            <p class="text-[11px] text-slate-400">1226 Washington Ave | Day Shelter & Vitals</p>
+            <a href="tel:2547534593" class="text-blue-400 font-mono text-[11px] hover:underline block mt-1">📞 (254) 753-4593</a>
+          </div>
+          <div class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800/80">
+            <p class="font-bold text-white">Salvation Army Community Center</p>
+            <p class="text-[11px] text-slate-400">4721 W Waco Dr | Emergency Shelter Intake</p>
+            <a href="tel:2547567271" class="text-blue-400 font-mono text-[11px] hover:underline block mt-1">📞 (254) 756-7271</a>
+          </div>
+          <div class="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800/80">
+            <p class="font-bold text-white">Heart of Texas BHN Crisis Line</p>
+            <p class="text-[11px] text-slate-400">110 S 12th St | 24/7 Behavioral Triage</p>
+            <a href="tel:8665258357" class="text-rose-400 font-mono text-[11px] hover:underline block mt-1">📞 (866) 525-8357</a>
+          </div>
+        </div>
+      </div>
     </aside>
 
-    <!-- Stage View Panels -->
+    <!-- Stage Panels -->
     <section class="md:col-span-8 flex flex-col">
       <div id="stageContainer" class="glass-panel p-6 rounded-xl flex-1 flex flex-col border border-slate-800">
 
@@ -97,7 +125,7 @@
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Location Last Slept</label>
-              <input type="text" id="intake_location" placeholder="Street intersection, park, or sector camp" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
+              <input type="text" id="intake_location" placeholder="e.g. 215 Washington Ave, Waco, TX" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
             </div>
             <div class="flex gap-3 pt-4">
               <button type="button" onclick="goToStage(0)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
@@ -212,7 +240,7 @@
               <input type="checkbox" id="ben_medicaid" class="mt-1 h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-0">
               <div>
                 <p class="text-sm font-semibold text-white">Medicaid / Healthcare Coverage</p>
-                <p class="text-xs text-slate-400">Enrolled in state health coverage or primary community health center clinic.</p>
+                <p class="text-xs text-slate-400">Enrolled in state health coverage or Waco Family Medicine Clinic.</p>
               </div>
             </label>
             <label class="flex items-start gap-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-lg cursor-pointer hover:bg-slate-900 transition">
@@ -238,7 +266,7 @@
             <p class="text-sm text-slate-400 mt-2">Clinical documentation, treatment engagement, and specialized behavioral support.</p>
           </div>
           <div class="space-y-4">
-            <textarea id="med_notes" rows="3" placeholder="Enter clinical provider contacts or chronic condition notes..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white"></textarea>
+            <textarea id="med_notes" rows="3" placeholder="Provider records (e.g., Waco Family Medicine / Heart of Texas BHN)..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white"></textarea>
           </div>
           <div class="flex gap-3 pt-4">
             <button onclick="goToStage(4)" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition">Back</button>
@@ -287,7 +315,7 @@
           <div class="space-y-4">
             <div>
               <label class="block text-xs font-medium text-slate-300 uppercase mb-1">Target Employment Field / Trades</label>
-              <input type="text" id="econ_trade" placeholder="e.g. Director of PurposeFlow, Transportation, Trades" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
+              <input type="text" id="econ_trade" placeholder="e.g. Director of PurposeFlow, Transportation, Landscaping" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
             </div>
           </div>
           <div class="flex gap-3 pt-4">
@@ -342,7 +370,7 @@
             </div>
           </div>
 
-          <!-- Export Actions -->
+          <!-- Export & Data Backup Hub -->
           <div class="grid grid-cols-2 gap-3">
             <button onclick="copyBrief()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-xs font-mono font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-2 transition">
               <span id="copyBtnText">Copy Case Brief</span>
@@ -350,6 +378,16 @@
             <button onclick="downloadRecord()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-xs font-mono font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-2 transition">
               <span>Download Record (.txt)</span>
             </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <button onclick="exportAllJSON()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-slate-300 rounded-lg border border-slate-800 transition">
+              Export Docket (.json)
+            </button>
+            <label class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-[11px] font-mono text-slate-300 rounded-lg border border-slate-800 transition text-center cursor-pointer">
+              Import Docket
+              <input type="file" accept=".json" onchange="importJSON(event)" class="hidden">
+            </label>
           </div>
 
           <div class="flex gap-3 pt-4 border-t border-slate-800/80">
@@ -377,6 +415,48 @@
     ];
 
     let currentStage = 0;
+    let activeCaseId = "default";
+    let docketStore = {};
+
+    function initDocket() {
+      const stored = localStorage.getItem("sovereign_records_v1");
+      if (stored) {
+        try { docketStore = JSON.parse(stored); } catch(e) { docketStore = {}; }
+      }
+      if (!docketStore || Object.keys(docketStore).length === 0) {
+        docketStore = {
+          "default": { id: "default", name: "Micah Hanks", stage: 0 }
+        };
+      }
+      activeCaseId = Object.keys(docketStore)[0] || "default";
+      populateCaseSelector();
+    }
+
+    function populateCaseSelector() {
+      const selector = document.getElementById("caseSelector");
+      selector.innerHTML = Object.keys(docketStore).map(id => {
+        const item = docketStore[id];
+        const label = item.intake_name || item.name || `Case #${id.slice(-4)}`;
+        return `<option value="${id}" ${id === activeCaseId ? 'selected' : ''}>${label}</option>`;
+      }).join("");
+    }
+
+    function createNewCase() {
+      const id = "case_" + Date.now();
+      docketStore[id] = { id: id, stage: 0 };
+      activeCaseId = id;
+      persistDocket();
+      populateCaseSelector();
+      loadCaseData();
+      goToStage(1);
+    }
+
+    function switchCase(id) {
+      saveActiveCase();
+      activeCaseId = id;
+      loadCaseData();
+      goToStage(docketStore[activeCaseId].stage || 0);
+    }
 
     function renderNav() {
       const container = document.getElementById("navContainer");
@@ -411,7 +491,7 @@
       if (activeNav) activeNav.classList.add("active-nav-item");
 
       if (stageId === 9) renderSummary();
-      saveState();
+      saveActiveCase();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -437,7 +517,7 @@
           badge.classList.add("hidden");
         }
       }
-      saveState();
+      saveActiveCase();
     }
 
     function getSummaryData() {
@@ -508,69 +588,79 @@ Timestamp: ${new Date().toISOString()}
       anchor.click();
     }
 
-    function saveState() {
-      const inputs = document.querySelectorAll("input, textarea");
-      const state = { stage: currentStage };
-      inputs.forEach(el => {
-        state[el.id] = el.type === "checkbox" ? el.checked : el.value;
-      });
-      localStorage.setItem("sovereign_nav_state", JSON.stringify(state));
+    function exportAllJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(docketStore, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Sovereign_Docket_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
     }
 
-    function loadState() {
-      const saved = localStorage.getItem("sovereign_nav_state");
-      if (!saved) return;
-      try {
-        const state = JSON.parse(saved);
-        Object.keys(state).forEach(id => {
-          if (id === "stage") return;
-          const el = document.getElementById(id);
-          if (el) {
-            if (el.type === "checkbox") el.checked = state[id];
-            else el.value = state[id];
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (typeof imported === 'object') {
+            docketStore = imported;
+            persistDocket();
+            initDocket();
+            loadCaseData();
+            goToStage(0);
           }
-        });
-        syncStageChecklists(2, 4);
-        goToStage(state.stage || 0);
-      } catch (e) {
-        console.error("State parse error:", e);
-      }
+        } catch(err) {
+          alert("Invalid Docket File");
+        }
+      };
+      reader.readAsText(file);
     }
 
-    function resetMatrix() {
-      if (confirm("Reset all form entries and progression?")) {
-        localStorage.removeItem("sovereign_nav_state");
-        location.reload();
-      }
+    function persistDocket() {
+      localStorage.setItem("sovereign_records_v1", JSON.stringify(docketStore));
     }
 
-    // Offline Service Worker Engine
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        const swBlob = new Blob([`
-          const CACHE_NAME = 'sov-nav-v1';
-          self.addEventListener('install', e => {
-            e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['./'])));
-          });
-          self.addEventListener('fetch', e => {
-            e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
-          });
-        `], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
-        navigator.serviceWorker.register(swUrl).catch(err => console.log('SW registration skipped', err));
+    function saveActiveCase() {
+      if (!docketStore[activeCaseId]) docketStore[activeCaseId] = {};
+      const caseObj = docketStore[activeCaseId];
+      caseObj.stage = currentStage;
+      document.querySelectorAll("input, textarea").forEach(el => {
+        caseObj[el.id] = el.type === "checkbox" ? el.checked : el.value;
       });
+      persistDocket();
     }
 
+    function loadCaseData() {
+      const caseObj = docketStore[activeCaseId] || {};
+      document.querySelectorAll("input, textarea").forEach(el => {
+        if (el.id in caseObj) {
+          if (el.type === "checkbox") el.checked = Boolean(caseObj[el.id]);
+          else el.value = caseObj[el.id];
+        } else {
+          if (el.type === "checkbox") el.checked = false;
+          else if (el.id !== "hmis_id") el.value = "";
+        }
+      });
+      syncStageChecklists(2, 4);
+      populateCaseSelector();
+    }
+
+    // Direct Form Elements Binding
     window.addEventListener("DOMContentLoaded", () => {
       renderNav();
+      initDocket();
+      loadCaseData();
       document.querySelectorAll("input, textarea").forEach(el => {
-        el.addEventListener("input", saveState);
-        el.addEventListener("change", saveState);
+        el.addEventListener("input", () => {
+          saveActiveCase();
+          if (el.id === "intake_name") populateCaseSelector();
+        });
+        el.addEventListener("change", saveActiveCase);
       });
-      loadState();
-      if (!localStorage.getItem("sovereign_nav_state")) {
-        goToStage(0);
-      }
+      goToStage(docketStore[activeCaseId].stage || 0);
     });
   </script>
 </body>
