@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="manifest" href="./manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sovereign Navigator — Remedy & Re-Stabilization Matrix</title>
@@ -726,16 +727,17 @@
       });
       syncStageChecklists(2, 4);
       populateCaseSelector();
-    }
-
-    // Unregister any stale worker
+    }    // Register Offline Service Worker Engine
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        for (let registration of registrations) registration.unregister();
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('Sovereign Cache Engine Active:', reg.scope))
+          .catch((err) => console.error('ServiceWorker Error:', err));
       });
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
+
+         window.addEventListener("DOMContentLoaded", () => {
       renderNav();
       initDocket();
       loadCaseData();
