@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sovereign Navigator — Remedy & Restoration Matrix</title>
+  <title>Sovereign Navigator — Remedy & Re‑Stabilization Matrix</title>
 
   <!-- Typography -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -22,6 +22,129 @@
       --font-ceremonial: 'Cinzel', Georgia, serif;
       --font-system: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
+
+    body {
+      background-color: var(--bg-deep-obsidian);
+      color: var(--text-alabaster);
+      font-family: var(--font-system);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-ceremonial);
+      color: var(--accent-burnished-brass);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .crest {
+      width: 32px;
+      height: 32px;
+      stroke: var(--accent-burnished-brass);
+      stroke-width: 1.5;
+      fill: none;
+      margin-right: 0.75rem;
+    }
+
+    .gate-card {
+      background: var(--bg-gate-slate);
+      border: var(--border-sovereign);
+      border-radius: 4px;
+      box-shadow: var(--shadow-gate);
+      display: grid;
+      grid-template-columns: 1fr;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .gate-card {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    .gate-institutional {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(28,28,30,1) 0%, rgba(18,18,20,1) 100%);
+      border-right: 1px solid rgba(200, 168, 110, 0.15);
+    }
+
+    .gate-natural {
+      padding: 1.5rem;
+      background: radial-gradient(circle at 100% 0%, rgba(200,168,110,0.06) 0%, rgba(28,28,30,0.95) 75%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .gate-title {
+      display: flex;
+      align-items: center;
+      font-family: var(--font-ceremonial);
+      color: var(--accent-burnished-brass);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .field-label {
+      color: var(--accent-burnished-brass);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-value {
+      font-size: 1rem;
+      margin-top: 0.25rem;
+    }
+
+    .decree-badge {
+      background: var(--accent-brass-subtle);
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      font-family: var(--font-ceremonial);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-sovereign {
+      background: var(--accent-burnished-brass);
+      color: var(--bg-deep-obsidian);
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-system);
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      .gate-card {
+        page-break-inside: avoid;
+        width: 3.5in;
+        height: 5in;
+        border: 1px solid #C8A86E;
+      }
+    }
+  </style>
+</head>
+
 
     <body>
   <div class="page-container">
