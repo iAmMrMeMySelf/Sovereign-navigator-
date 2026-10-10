@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Obsidian Background -->
+  <rect width="512" height="512" fill="#0A0A0A"/>
+
+  <!-- Sovereign Navigator Geometry: Burnished Brass (#C8A86E) -->
+  <g stroke="#C8A86E" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    
+    <!-- Central Circle (Identity) -->
+    <circle cx="256" cy="256" r="96" stroke-width="8"/>
+
+    <!-- 16 Auxiliary Radiant Rays & Accent Dots -->
+    <!-- Radiating Ray Pairs (spaced every 22.5°) -->
+    <g stroke-width="7">
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(22.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(67.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(112.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(157.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(202.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(247.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(292.5 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="104" transform="rotate(337.5 256 256)"/>
+    </g>
+
+    <!-- Ray Outer Terminal Dots -->
+    <g fill="#C8A86E" stroke="none">
+      <circle cx="256" cy="90" r="4.5" transform="rotate(22.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(67.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(112.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(157.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(202.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(247.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(292.5 256 256)"/>
+      <circle cx="256" cy="90" r="4.5" transform="rotate(337.5 256 256)"/>
+    </g>
+
+    <!-- Diagonal Compass Rays (45°, 135°, 225°, 315°) -->
+    <g stroke-width="7">
+      <line x1="256" y1="160" x2="256" y2="82" transform="rotate(45 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="82" transform="rotate(135 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="82" transform="rotate(225 256 256)"/>
+      <line x1="256" y1="160" x2="256" y2="82" transform="rotate(315 256 256)"/>
+    </g>
+    <g fill="#C8A86E" stroke="none">
+      <circle cx="256" cy="68" r="5" transform="rotate(45 256 256)"/>
+      <circle cx="256" cy="68" r="5" transform="rotate(135 256 256)"/>
+      <circle cx="256" cy="68" r="5" transform="rotate(225 256 256)"/>
+      <circle cx="256" cy="68" r="5" transform="rotate(315 256 256)"/>
+    </g>
+
+    <!-- Horizontal Axis (East-West Arrows) -->
+    <g stroke-width="8">
+      <line x1="68" y1="256" x2="444" y2="256"/>
+      <!-- West Arrowhead -->
+      <polyline points="88,240 68,256 88,272"/>
+      <!-- East Arrowhead -->
+      <polyline points="424,240 444,256 424,272"/>
+    </g>
+    <g fill="#C8A86E" stroke="none">
+      <circle cx="48" cy="256" r="4.5"/>
+      <circle cx="464" cy="256" r="4.5"/>
+    </g>
+
+    <!-- Vertical Axis (Standing / North Arrow / South Diamond Keel) -->
+    <g stroke-width="8">
+      <line x1="256" y1="64" x2="256" y2="430"/>
+      <!-- North Arrowhead -->
+      <polyline points="240,84 256,64 272,84"/>
+      <!-- South Ceremonial Diamond Finial -->
+      <polygon points="256,400 270,420 256,444 242,420" stroke-width="6"/>
+    </g>
+    <g fill="#C8A86E" stroke="none">
+      <circle cx="256" cy="46" r="4.5"/>
+      <circle cx="256" cy="466" r="4.5"/>
+    </g>
+
+  </g>
+</svg>
