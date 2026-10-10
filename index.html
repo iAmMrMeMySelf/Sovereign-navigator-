@@ -1,755 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="manifest" href="./manifest.json">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sovereign Navigator — Remedy & Re-Stabilization Matrix</title>
-  
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SovereignNav">
-  <meta name="theme-color" content="#020617">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign Navigator — Remedy & Restoration Matrix</title>
+
+  <!-- Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: #020617; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
-    
-    header { background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid #1e293b; padding: 14px 16px; position: sticky; top: 0; z-index: 50; }
-    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    
-    main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
-    @media (min-width: 768px) {
-      main { display: grid; grid-template-columns: 4fr 8fr; align-items: start; }
+    :root {
+      --bg-deep-obsidian: #0A0A0A;
+      --bg-gate-slate: #1C1C1E;
+      --accent-burnished-brass: #C8A86E;
+      --accent-brass-subtle: rgba(200, 168, 110, 0.25);
+      --text-alabaster: #F5F5F2;
+      --text-muted: #8E8E93;
+      --border-sovereign: 1px solid rgba(200, 168, 110, 0.28);
+      --shadow-gate: 0 8px 32px rgba(0, 0, 0, 0.65), 0 0 20px rgba(200, 168, 110, 0.08);
+
+      --font-ceremonial: 'Cinzel', Georgia, serif;
+      --font-system: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    .glass-panel { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; }
-    .hidden { display: none !important; }
-    
-    .btn-blue { background: #2563eb; color: #ffffff; font-weight: 600; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; text-align: center; display: block; width: 100%; text-decoration: none; font-size: 14px; }
-    .btn-blue:active { background: #1d4ed8; }
-    .btn-blue:disabled { opacity: 0.35; cursor: not-allowed; }
-    
-    .btn-secondary { background: #1e293b; color: #cbd5e1; font-weight: 500; padding: 12px 16px; border-radius: 8px; border: 1px solid #334155; cursor: pointer; text-align: center; font-size: 14px; }
-    .btn-secondary:active { background: #334155; }
-    
-    .btn-small { padding: 6px 10px; font-size: 11px; border-radius: 6px; font-family: ui-monospace, monospace; cursor: pointer; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; }
-    .btn-emerald { color: #34d399; border-color: rgba(5, 150, 105, 0.4); }
+    body {
+      background-color: var(--bg-deep-obsidian);
+      color: var(--text-alabaster);
+      font-family: var(--font-system);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    .input-field { width: 100%; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 12px; color: #ffffff; margin-top: 4px; font-size: 14px; outline: none; }
-    .input-field:focus { border-color: #3b82f6; }
+    h1, h2, h3 {
+      font-family: var(--font-ceremonial);
+      color: var(--accent-burnished-brass);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
 
-    .check-card { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: rgba(2, 6, 23, 0.6); border: 1px solid #1e293b; border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
-    .check-card input { margin-top: 3px; width: 18px; height: 18px; accent-color: #2563eb; }
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-    .nav-btn { width: 100%; text-align: left; padding: 10px 12px; border-radius: 6px; font-size: 12px; font-family: ui-monospace, monospace; color: #94a3b8; background: transparent; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .active-nav-item { background: #1e293b; border-left: 3px solid #3b82f6; color: #ffffff !important; }
-    
-    .progress-track { width: 100%; background: #1e293b; height: 8px; border-radius: 999px; overflow: hidden; margin-top: 8px; }
-    .progress-fill { background: #10b981; height: 100%; width: 0%; transition: width 0.25s ease; }
+    .crest {
+      width: 32px;
+      height: 32px;
+      stroke: var(--accent-burnished-brass);
+      stroke-width: 1.5;
+      fill: none;
+      margin-right: 0.75rem;
+    }
 
-    .directory-item { padding: 10px; background: rgba(2, 6, 23, 0.5); border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 8px; font-size: 12px; }
-    .directory-item a { color: #60a5fa; text-decoration: none; display: inline-block; margin-top: 4px; font-family: ui-monospace, monospace; }
+    .gate-card {
+      background: var(--bg-gate-slate);
+      border: var(--border-sovereign);
+      border-radius: 4px;
+      box-shadow: var(--shadow-gate);
+      display: grid;
+      grid-template-columns: 1fr;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .gate-card {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    .gate-institutional {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(28,28,30,1) 0%, rgba(18,18,20,1) 100%);
+      border-right: 1px solid rgba(200, 168, 110, 0.15);
+    }
+
+    .gate-natural {
+      padding: 1.5rem;
+      background: radial-gradient(circle at 100% 0%, rgba(200,168,110,0.06) 0%, rgba(28,28,30,0.95) 75%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .gate-title {
+      display: flex;
+      align-items: center;
+      font-family: var(--font-ceremonial);
+      color: var(--accent-burnished-brass);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .field-label {
+      color: var(--accent-burnished-brass);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-value {
+      font-size: 1rem;
+      margin-top: 0.25rem;
+    }
+
+    .decree-badge {
+      background: var(--accent-brass-subtle);
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      font-family: var(--font-ceremonial);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-sovereign {
+      background: var(--accent-burnished-brass);
+      color: var(--bg-deep-obsidian);
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-system);
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    /* Print / Oracle Card Mode */
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      .gate-card {
+        page-break-inside: avoid;
+        width: 3.5in;
+        height: 5in;
+        border: 1px solid #C8A86E;
+      }
+    }
   </style>
 </head>
-<body>
-
-  <!-- Header -->
-  <header>
-    <div class="header-inner">
-      <div>
-        <h1 style="font-size: 15px; font-weight: 700; letter-spacing: -0.01em;">SOVEREIGN NAVIGATOR</h1>
-        <p style="font-size: 10px; color: #94a3b8; font-family: ui-monospace, monospace;">REMEDY & RE-STABILIZATION MATRIX</p>
-      </div>
-
-      <div style="display: flex; gap: 6px; align-items: center;">
-        <select id="caseSelector" onchange="switchCase(this.value)" class="input-field" style="width: auto; padding: 6px 10px; margin: 0; font-size: 12px; font-family: ui-monospace, monospace;">
-        </select>
-        <button onclick="createNewCase()" class="btn-blue" style="width: auto; padding: 6px 12px; font-size: 12px; font-family: ui-monospace, monospace;">+ New</button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- Sidebar / Directory -->
-    <aside style="display: flex; flex-direction: column; gap: 16px;">
-      <div class="glass-panel" style="padding: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleNav()">
-          <span style="font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase;">Pipeline Index</span>
-          <span id="navToggleIcon" style="font-size: 11px; color: #64748b; font-family: ui-monospace, monospace;">[Toggle]</span>
-        </div>
-        <nav id="navContainer" style="margin-top: 10px; display: flex; flex-direction: column; gap: 2px;">
-        </nav>
-      </div>
-
-      <div class="glass-panel" style="padding: 14px;">
-        <span style="font-size: 11px; font-weight: 700; color: #34d399; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 8px;">Waco Continuum Directory</span>
-        <div class="directory-item">
-          <strong>Meyer Center / My Brother's Keeper</strong>
-          <p style="color: #94a3b8; font-size: 11px;">1226 Washington Ave | Day Shelter & Vitals</p>
-          <a href="tel:2547534593">📞 (254) 753-4593</a>
-        </div>
-        <div class="directory-item">
-          <strong>Salvation Army Community Center</strong>
-          <p style="color: #94a3b8; font-size: 11px;">4721 W Waco Dr | Emergency Shelter Intake</p>
-          <a href="tel:2547567271">📞 (254) 756-7271</a>
-        </div>
-        <div class="directory-item">
-          <strong>Heart of Texas BHN Crisis Line</strong>
-          <p style="color: #94a3b8; font-size: 11px;">110 S 12th St | 24/7 Behavioral Triage</p>
-          <a href="tel:8665258357" style="color: #f43f5e;">📞 (866) 525-8357</a>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Stage Content Panels -->
-    <section>
-      <div class="glass-panel" id="stageContainer">
-
-        <!-- Stage 0 -->
-        <div id="stage-0" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 16px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.05em;">Entry Gate</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Sovereign Navigator — Remedy Pathway</h2>
-            <p style="font-size: 13px; color: #94a3b8; margin-top: 6px;">Establish baseline standing to route intake priority and resources.</p>
-          </div>
-          <button onclick="goToStage(1)" class="btn-blue">Begin Intake & Triage</button>
-          <button onclick="goToStage(2)" class="btn-secondary">Open Identity Gate</button>
-        </div>
-
-        <!-- Stage I -->
-        <div id="stage-1" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage I — Contact</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Unsheltered Intake & Triage</h2>
-          </div>
-          <form onsubmit="event.preventDefault(); goToStage(2);" style="display: flex; flex-direction: column; gap: 12px;">
-            <div>
-              <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Individual / Legal Name</label>
-              <input type="text" id="intake_name" placeholder="First Last" class="input-field">
-            </div>
-            <div>
-              <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Known Alias / Moniker</label>
-              <input type="text" id="intake_alias" placeholder="Street moniker" class="input-field">
-            </div>
-            <div>
-              <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Location Last Slept</label>
-              <input type="text" id="intake_location" placeholder="e.g. 215 Washington Ave, Waco, TX" class="input-field">
-            </div>
-            <div style="display: flex; gap: 10px; margin-top: 8px;">
-              <button type="button" onclick="goToStage(0)" class="btn-secondary" style="flex: 1;">Back</button>
-              <button type="submit" class="btn-blue" style="flex: 2;">Advance to Identity Gate</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Stage II -->
-        <div id="stage-2" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Active View — Stage II</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Identity Documentation Gate</h2>
-          </div>
-
-          <div style="background: rgba(2, 6, 23, 0.8); border: 1px solid #1e293b; border-radius: 8px; padding: 12px;">
-            <div style="display: flex; justify-content: space-between; font-size: 12px;">
-              <span style="color: #94a3b8;">Document Recovery Status</span>
-              <span id="stage2_counter" style="color: #34d399; font-family: ui-monospace, monospace;">0% (0/4)</span>
-            </div>
-            <div class="progress-track"><div id="stage2_bar" class="progress-fill"></div></div>
-          </div>
-
-          <div>
-            <label class="check-card">
-              <input type="checkbox" id="doc_state_id" onchange="syncStageChecklists(2, 4)">
-              <div>
-                <strong style="font-size: 13px; display: block;">State ID Restoration</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Certified driver license or official state photo ID.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="doc_birth_cert" onchange="syncStageChecklists(2, 4)">
-              <div>
-                <strong style="font-size: 13px; display: block;">Birth Certificate Retrieval</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Vital statistics copy with official raised seal.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="doc_ss_card" onchange="syncStageChecklists(2, 4)">
-              <div>
-                <strong style="font-size: 13px; display: block;">Social Security Card Replacement</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Official SSA employment card.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="doc_address" onchange="syncStageChecklists(2, 4)">
-              <div>
-                <strong style="font-size: 13px; display: block;">Address Establishment</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Daytime delivery address at shelter or clinic.</p>
-              </div>
-            </label>
-          </div>
-
-          <div style="display: flex; gap: 10px;">
-            <button onclick="goToStage(1)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button id="stage2_advanceBtn" onclick="goToStage(3)" disabled class="btn-blue" style="flex: 2;">Advance to HMIS Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage III -->
-        <div id="stage-3" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage III — Federal Gate</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">HMIS Coordinated Entry</h2>
-          </div>
-          <div>
-            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">HMIS Universal ID</label>
-            <input type="text" id="hmis_id" value="TX-COC-2026-DOC-VERIFIED" readonly class="input-field" style="color: #64748b; font-family: ui-monospace, monospace;">
-          </div>
-          <div>
-            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">VI-SPDAT Acuity Score (1–17)</label>
-            <input type="number" id="hmis_acuity" min="1" max="17" placeholder="Acuity Score" class="input-field">
-          </div>
-          <div>
-            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Lead Agency / Navigator Name</label>
-            <input type="text" id="hmis_navigator" placeholder="Assigned Worker / PurposeFlow" class="input-field">
-          </div>
-          <div style="display: flex; gap: 10px; margin-top: 8px;">
-            <button onclick="goToStage(2)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(4)" class="btn-blue" style="flex: 2;">Advance to Benefits Hub</button>
-          </div>
-        </div>
-
-        <!-- Stage IV -->
-        <div id="stage-4" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage IV</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Benefits Hub</h2>
-          </div>
-          <div>
-            <label class="check-card">
-              <input type="checkbox" id="ben_snap">
-              <div>
-                <strong style="font-size: 13px; display: block;">SNAP Nutrition Assistance</strong>
-                <p style="font-size: 11px; color: #94a3b8;">EBT baseline active.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="ben_medicaid">
-              <div>
-                <strong style="font-size: 13px; display: block;">Medicaid / Healthcare Coverage</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Health coverage verified.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="ben_ssi">
-              <div>
-                <strong style="font-size: 13px; display: block;">SOAR / SSI / SSDI Initiated</strong>
-                <p style="font-size: 11px; color: #94a3b8;">SSA claims expediting active.</p>
-              </div>
-            </label>
-          </div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="goToStage(3)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(5)" class="btn-blue" style="flex: 2;">Continue to Medical Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage V -->
-        <div id="stage-5" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage V</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Medical & Behavioral Gate</h2>
-          </div>
-          <div>
-            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Provider Records & Clinical Notes</label>
-            <textarea id="med_notes" rows="3" placeholder="Clinical notes, HMR, health clinic..." class="input-field"></textarea>
-          </div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="goToStage(4)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(6)" class="btn-blue" style="flex: 2;">Continue to Housing Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage VI -->
-        <div id="stage-6" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage VI</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Housing Placement Pathway</h2>
-          </div>
-          <div>
-            <label class="check-card">
-              <input type="checkbox" id="house_rrh">
-              <div>
-                <strong style="font-size: 13px; display: block;">Rapid Re-Housing (RRH) Matched</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Short-to-medium rental subsidy queue active.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="house_psh">
-              <div>
-                <strong style="font-size: 13px; display: block;">Permanent Supportive Housing (PSH) Matched</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Permanent supportive housing lease matched.</p>
-              </div>
-            </label>
-          </div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="goToStage(5)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(7)" class="btn-blue" style="flex: 2;">Continue to Economic Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage VII -->
-        <div id="stage-7" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage VII</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Economic Stabilization</h2>
-          </div>
-          <div>
-            <label style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">Target Enterprise / Trade</label>
-            <input type="text" id="econ_trade" placeholder="e.g. Garden of the Gods / Bethesda Foods" class="input-field">
-          </div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="goToStage(6)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(8)" class="btn-blue" style="flex: 2;">Continue to Legal Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage VIII -->
-        <div id="stage-8" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Stage VIII</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Legal Stability Hub</h2>
-          </div>
-          <div>
-            <label class="check-card">
-              <input type="checkbox" id="legal_warrants">
-              <div>
-                <strong style="font-size: 13px; display: block;">Municipal Warrant Clearance</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Homeless court fine relief or community service credit.</p>
-              </div>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" id="legal_aid">
-              <div>
-                <strong style="font-size: 13px; display: block;">Legal Aid Formal Retainer</strong>
-                <p style="font-size: 11px; color: #94a3b8;">Civil standing advocacy established.</p>
-              </div>
-            </label>
-          </div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="goToStage(7)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(9)" class="btn-blue" style="flex: 2;">Final Sovereign Gate</button>
-          </div>
-        </div>
-
-        <!-- Stage IX -->
-        <div id="stage-9" class="stage-view hidden" style="display: flex; flex-direction: column; gap: 14px;">
-          <div>
-            <span style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase;">Final Status</span>
-            <h2 style="font-size: 22px; font-weight: 700; margin-top: 4px;">Sovereign Restoration Dashboard</h2>
-          </div>
-
-          <div style="background: rgba(2, 6, 23, 0.9); border: 1px solid #1e293b; border-radius: 8px; padding: 14px; font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.6;">
-            <strong style="color: #cbd5e1; display: block; border-bottom: 1px solid #1e293b; padding-bottom: 6px; margin-bottom: 8px;">COMPILED INTAKE RECORD</strong>
-            <div id="summaryDisplay"></div>
-          </div>
-
-          <!-- Exports -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button onclick="copyBrief()" class="btn-secondary" id="copyBtnText" style="padding: 10px; font-size: 12px; font-family: ui-monospace, monospace;">Copy Case Brief</button>
-            <button onclick="downloadRecord()" class="btn-secondary" style="padding: 10px; font-size: 12px; font-family: ui-monospace, monospace;">Download (.txt)</button>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button onclick="exportAllBriefsTxt()" class="btn-small btn-emerald">Download All Briefs (.txt)</button>
-            <button onclick="exportDocketCSV()" class="btn-small btn-emerald">Export Matrix (.csv)</button>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button onclick="exportAllJSON()" class="btn-small">Export Docket (.json)</button>
-            <label class="btn-small" style="text-align: center; display: block;">
-              Import Docket
-              <input type="file" accept=".json,.txt,text/plain,application/json" onchange="importJSON(event)" style="display: none;">
-            </label>
-          </div>
-
-          <div style="display: flex; gap: 10px; margin-top: 8px; border-top: 1px solid #1e293b; padding-top: 12px;">
-            <button onclick="goToStage(8)" class="btn-secondary" style="flex: 1;">Back</button>
-            <button onclick="goToStage(0)" class="btn-blue" style="flex: 2;">Return to Entry Gate</button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const STAGES = [
-      { id: 0, label: "0. Status Gate" },
-      { id: 1, label: "I. Unsheltered Intake" },
-      { id: 2, label: "II. Identity Gate" },
-      { id: 3, label: "III. HMIS Enrollment" },
-      { id: 4, label: "IV. Benefits Hub" },
-      { id: 5, label: "V. Medical & Behavioral" },
-      { id: 6, label: "VI. Housing Pathway" },
-      { id: 7, label: "VII. Economic Stabilization" },
-      { id: 8, label: "VIII. Legal Stability" },
-      { id: 9, label: "IX. Sovereign Restoration" }
-    ];
-
-    let currentStage = 0;
-    let activeCaseId = "default";
-    let docketStore = {};
-
-    function initDocket() {
-      const stored = localStorage.getItem("sovereign_records_v1");
-      if (stored) {
-        try { docketStore = JSON.parse(stored); } catch(e) { docketStore = {}; }
-      }
-      if (!docketStore || Object.keys(docketStore).length === 0) {
-        docketStore = {
-          "default": { id: "default", name: "Micah Hanks", stage: 0 }
-        };
-      }
-      activeCaseId = Object.keys(docketStore)[0] || "default";
-      populateCaseSelector();
-    }
-
-    function populateCaseSelector() {
-      const selector = document.getElementById("caseSelector");
-      selector.innerHTML = Object.keys(docketStore).map(id => {
-        const item = docketStore[id];
-        const label = item.intake_name || item.name || `Case #${id.slice(-4)}`;
-        return `<option value="${id}" ${id === activeCaseId ? 'selected' : ''}>${label}</option>`;
-      }).join("");
-    }
-
-    function createNewCase() {
-      const id = "case_" + Date.now();
-      docketStore[id] = { id: id, stage: 0 };
-      activeCaseId = id;
-      persistDocket();
-      populateCaseSelector();
-      loadCaseData();
-      goToStage(1);
-    }
-
-    function switchCase(id) {
-      saveActiveCase();
-      activeCaseId = id;
-      loadCaseData();
-      goToStage(docketStore[activeCaseId].stage || 0);
-    }
-
-    function renderNav() {
-      const container = document.getElementById("navContainer");
-      container.innerHTML = STAGES.map(s => `
-        <button onclick="handleNavClick(${s.id})" id="nav-btn-${s.id}" class="nav-btn">
-          <span>${s.label}</span>
-          <span id="badge-${s.id}" style="color: #34d399; font-weight: bold; display: none;">✓</span>
-        </button>
-      `).join("");
-    }
-
-    function toggleNav() {
-      const nav = document.getElementById("navContainer");
-      nav.classList.toggle("hidden");
-    }
-
-    function handleNavClick(stageId) {
-      goToStage(stageId);
-      if (window.innerWidth < 768) {
-        document.getElementById("navContainer").classList.add("hidden");
-      }
-    }
-
-    function goToStage(stageId) {
-      currentStage = stageId;
-      document.querySelectorAll(".stage-view").forEach(el => el.classList.add("hidden"));
-      const target = document.getElementById(`stage-${stageId}`);
-      if (target) target.classList.remove("hidden");
-
-      document.querySelectorAll("#navContainer button").forEach(btn => btn.classList.remove("active-nav-item"));
-      const activeNav = document.getElementById(`nav-btn-${stageId}`);
-      if (activeNav) activeNav.classList.add("active-nav-item");
-
-      if (stageId === 9) renderSummary();
-      saveActiveCase();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function syncStageChecklists(stageNum, total) {
-      if (stageNum === 2) {
-        const c1 = document.getElementById("doc_state_id").checked;
-        const c2 = document.getElementById("doc_birth_cert").checked;
-        const c3 = document.getElementById("doc_ss_card").checked;
-        const c4 = document.getElementById("doc_address").checked;
-        const count = [c1, c2, c3, c4].filter(Boolean).length;
-
-        document.getElementById("stage2_counter").innerText = `${Math.round((count / total) * 100)}% (${count}/${total})`;
-        document.getElementById("stage2_bar").style.width = `${(count / total) * 100}%`;
-
-        document.getElementById("stage2_advanceBtn").disabled = count !== 4;
-        
-        const badge = document.getElementById("badge-2");
-        if (count === 4) {
-          badge.style.display = "inline";
-          badge.innerText = "4/4";
-        } else {
-          badge.style.display = "none";
-        }
-      }
-      saveActiveCase();
-    }
-
-    function getSummaryData() {
-      return {
-        name: document.getElementById("intake_name").value || "N/A",
-        alias: document.getElementById("intake_alias").value || "N/A",
-        location: document.getElementById("intake_location").value || "N/A",
-        acuity: document.getElementById("hmis_acuity").value || "Unrated",
-        navigator: document.getElementById("hmis_navigator").value || "Unassigned",
-        trade: document.getElementById("econ_trade").value || "Unspecified",
-        docsComplete: ["doc_state_id", "doc_birth_cert", "doc_ss_card", "doc_address"].every(id => document.getElementById(id).checked),
-        snap: document.getElementById("ben_snap").checked ? "Enrolled" : "Pending",
-        medicaid: document.getElementById("ben_medicaid").checked ? "Active" : "Pending",
-        rrh: document.getElementById("house_rrh").checked ? "Yes" : "No",
-        psh: document.getElementById("house_psh").checked ? "Yes" : "No",
-        legalWarrants: document.getElementById("legal_warrants").checked ? "Cleared" : "Active"
-      };
-    }
-
-    function renderSummary() {
-      const d = getSummaryData();
-      document.getElementById("summaryDisplay").innerHTML = `
-        <p><strong>Subject:</strong> ${d.name} (Alias: ${d.alias})</p>
-        <p><strong>Location Last Slept:</strong> ${d.location}</p>
-        <p><strong>Civil Documents:</strong> ${d.docsComplete ? '<span style="color:#34d399">Verified (4/4)</span>' : '<span style="color:#f59e0b">Incomplete</span>'}</p>
-        <p><strong>HMIS Acuity Score:</strong> ${d.acuity} | Navigator: ${d.navigator}</p>
-        <p><strong>Public Benefits:</strong> SNAP: ${d.snap} | Medicaid: ${d.medicaid}</p>
-        <p><strong>Housing Placements:</strong> RRH: ${d.rrh} | PSH: ${d.psh}</p>
-        <p><strong>Target Trades:</strong> ${d.trade}</p>
-        <p><strong>Legal Warrants:</strong> ${d.legalWarrants}</p>
-      `;
-    }
-
-    function generateBriefText() {
-      const d = getSummaryData();
-      return `SOVEREIGN NAVIGATOR — CASE BRIEF\n=================================\nSubject: ${d.name}\nAlias / Moniker: ${d.alias}\nLocation Last Slept: ${d.location}\nVital Civil Documents: ${d.docsComplete ? 'Verified (4/4)' : 'Pending'}\nHMIS Acuity Score: ${d.acuity}\nLead Agency / Navigator: ${d.navigator}\nPublic Benefits: SNAP: ${d.snap} | Medicaid: ${d.medicaid}\nHousing Placement Pathways: RRH: ${d.rrh} | PSH: ${d.psh}\nTarget Trades / Field: ${d.trade}\nLegal Standing / Warrants: ${d.legalWarrants}\nTimestamp: ${new Date().toISOString()}\n=================================`;
-    }
-
-    function copyBrief() {
-      navigator.clipboard.writeText(generateBriefText()).then(() => {
-        const btn = document.getElementById("copyBtnText");
-        btn.innerText = "Copied!";
-        setTimeout(() => { btn.innerText = "Copy Case Brief"; }, 2000);
-      });
-    }
-
-    function downloadRecord() {
-      const text = generateBriefText();
-      const d = getSummaryData();
-      const blob = new Blob([text], { type: "text/plain" });
-      const a = document.createElement("a");
-      a.download = `Sovereign_Intake_${(d.name || "Subject").replace(/\\s+/g, '_')}.txt`;
-      a.href = URL.createObjectURL(blob);
-      a.click();
-    }
-
-    function exportAllBriefsTxt() {
-      const keys = Object.keys(docketStore);
-      if (keys.length === 0) return alert("Docket is empty.");
-      
-      let consolidated = "SOVEREIGN NAVIGATOR — MASTER DOCKET BRIEF\nGenerated: " + new Date().toISOString() + "\n==================================================\n\n";
-      keys.forEach((key, index) => {
-        const c = docketStore[key];
-        const name = c.intake_name || c.name || "Unnamed";
-        const docs = (c.doc_state_id && c.doc_birth_cert && c.doc_ss_card && c.doc_address) ? "Verified (4/4)" : "Pending";
-        consolidated += `RECORD ${index + 1}: ${name.toUpperCase()}\nAlias: ${c.intake_alias || 'N/A'}\nLocation: ${c.intake_location || 'N/A'}\nCivil Docs: ${docs}\nHMIS Acuity: ${c.hmis_acuity || 'Unrated'} | Navigator: ${c.hmis_navigator || 'Unassigned'}\nBenefits: SNAP: ${c.ben_snap ? 'Enrolled' : 'Pending'} | Medicaid: ${c.ben_medicaid ? 'Active' : 'Pending'}\nHousing: RRH: ${c.house_rrh ? 'Yes' : 'No'} | PSH: ${c.house_psh ? 'Yes' : 'No'}\nTrades: ${c.econ_trade || 'Unspecified'}\nLegal: ${c.legal_warrants ? 'Cleared' : 'Active'}\n--------------------------------------------------\n\n`;
-      });
-
-      const blob = new Blob([consolidated], { type: "text/plain" });
-      const a = document.createElement("a");
-      a.download = `Sovereign_Master_Briefs_${new Date().toISOString().slice(0, 10)}.txt`;
-      a.href = URL.createObjectURL(blob);
-      a.click();
-    }
-
-    function exportDocketCSV() {
-      const keys = Object.keys(docketStore);
-      if (keys.length === 0) return alert("Docket is empty.");
-
-      const headers = ["Subject", "Alias", "Location", "Civil_Docs_Verified", "VI_SPDAT_Acuity", "Navigator", "SNAP", "Medicaid", "RRH_Matched", "PSH_Matched", "Target_Trade", "Warrants_Cleared"];
-      const rows = keys.map(key => {
-        const c = docketStore[key];
-        const docs = (c.doc_state_id && c.doc_birth_cert && c.doc_ss_card && c.doc_address) ? "4/4" : "Incomplete";
-        return [
-          `"${c.intake_name || c.name || ''}"`,
-          `"${c.intake_alias || ''}"`,
-          `"${c.intake_location || ''}"`,
-          `"${docs}"`,
-          `"${c.hmis_acuity || ''}"`,
-          `"${c.hmis_navigator || ''}"`,
-          c.ben_snap ? "Yes" : "No",
-          c.ben_medicaid ? "Yes" : "No",
-          c.house_rrh ? "Yes" : "No",
-          c.house_psh ? "Yes" : "No",
-          `"${c.econ_trade || ''}"`,
-          c.legal_warrants ? "Cleared" : "Active"
-        ].join(",");
-      });
-
-      const blob = new Blob([[headers.join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8;" });
-      const a = document.createElement("a");
-      a.download = `Sovereign_Docket_${new Date().toISOString().slice(0, 10)}.csv`;
-      a.href = URL.createObjectURL(blob);
-      a.click();
-    }
-
-    function exportAllJSON() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(docketStore, null, 2));
-      const a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", `Sovereign_Docket_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-        function importJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const content = e.target.result.trim();
-        try {
-          // Attempt 1: Standard JSON Docket Import
-          const imported = JSON.parse(content);
-          if (typeof imported === 'object') {
-            docketStore = imported;
-            persistDocket();
-            initDocket();
-            loadCaseData();
-            goToStage(0);
-            return;
-          }
-        } catch(err) {
-          // Attempt 2: Auto-parse TXT Case Briefs into Docket Records
-          if (content.includes("SOVEREIGN NAVIGATOR") || content.includes("CASE BRIEF")) {
-            const records = content.split(/RECORD \d+:|--------------------------------------------------|=================================/).filter(r => r.includes("Subject:"));
-            
-            if (records.length > 0) {
-              records.forEach(rec => {
-                const getVal = (key) => {
-                  const match = rec.match(new RegExp(`${key}:\\s*([^\\n]+)`, 'i'));
-                  return match ? match[1].trim() : '';
-                };
-
-                const name = getVal("Subject") || "Imported Case";
-                const alias = getVal("Alias / Moniker") || getVal("Alias");
-                const location = getVal("Location Last Slept") || getVal("Location");
-                const docs = rec.includes("Verified (4/4)") || rec.includes("Verified");
-                const acuity = (rec.match(/Acuity(?: Score)?:\\s*(\\d+)/i) || [])[1] || "";
-                const navigator = (rec.match(/Navigator:\\s*([^\\n|]+)/i) || [])[1] || "";
-                const snap = rec.includes("SNAP: Enrolled") || rec.includes("SNAP: Yes");
-                const medicaid = rec.includes("Medicaid: Active") || rec.includes("Medicaid: Yes");
-                const rrh = rec.includes("RRH: Yes");
-                const psh = rec.includes("PSH: Yes");
-                const trade = getVal("Target Trades / Field") || getVal("Target Trades") || getVal("Trades");
-                const warrants = rec.includes("Cleared");
-
-                const caseId = "case_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
-                docketStore[caseId] = {
-                  id: caseId,
-                  stage: 9,
-                  intake_name: name,
-                  intake_alias: alias,
-                  intake_location: location,
-                  doc_state_id: docs,
-                  doc_birth_cert: docs,
-                  doc_ss_card: docs,
-                  doc_address: docs,
-                  hmis_id: "TX-COC-2026-DOC-VERIFIED",
-                  hmis_acuity: acuity,
-                  hmis_navigator: navigator.trim(),
-                  ben_snap: snap,
-                  ben_medicaid: medicaid,
-                  ben_ssi: false,
-                  house_rrh: rrh,
-                  house_psh: psh,
-                  econ_trade: trade,
-                  legal_warrants: warrants,
-                  legal_aid: false
-                };
-              });
-
-              persistDocket();
-              initDocket();
-              loadCaseData();
-              goToStage(9);
-              alert("Successfully imported text brief(s) into active docket!");
-              return;
-            }
-          }
-          alert("Invalid Docket File: Please select a valid .json docket backup or .txt case brief.");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-  
-
-  
-
-    function persistDocket() {
-      localStorage.setItem("sovereign_records_v1", JSON.stringify(docketStore));
-    }
-
-    function saveActiveCase() {
-      if (!docketStore[activeCaseId]) docketStore[activeCaseId] = {};
-      const caseObj = docketStore[activeCaseId];
-      caseObj.stage = currentStage;
-      document.querySelectorAll("input, textarea").forEach(el => {
-        caseObj[el.id] = el.type === "checkbox" ? el.checked : el.value;
-      });
-      persistDocket();
-    }
-
-    function loadCaseData() {
-      const caseObj = docketStore[activeCaseId] || {};
-      document.querySelectorAll("input, textarea").forEach(el => {
-        if (el.id in caseObj) {
-          if (el.type === "checkbox") el.checked = Boolean(caseObj[el.id]);
-          else el.value = caseObj[el.id];
-        } else {
-          if (el.type === "checkbox") el.checked = false;
-          else if (el.id !== "hmis_id") el.value = "";
-        }
-      });
-      syncStageChecklists(2, 4);
-      populateCaseSelector();
-    }    // Register Offline Service Worker Engine
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('Sovereign Cache Engine Active:', reg.scope))
-          .catch((err) => console.error('ServiceWorker Error:', err));
-      });
-    }
-
-
-         window.addEventListener("DOMContentLoaded", () => {
-      renderNav();
-      initDocket();
-      loadCaseData();
-      document.querySelectorAll("input, textarea").forEach(el => {
-        el.addEventListener("input", () => {
-          saveActiveCase();
-          if (el.id === "intake_name") populateCaseSelector();
-        });
-        el.addEventListener("change", saveActiveCase);
-      });
-      goToStage(docketStore[activeCaseId].stage || 0);
-    });
-  </script>
-</body>
-</html>
